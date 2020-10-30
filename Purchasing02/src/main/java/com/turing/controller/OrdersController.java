@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -142,6 +143,7 @@ public class OrdersController {
         return mv;
     }
 
+    //查询一条
     @RequestMapping("/findOrderById")
     @ResponseBody
     public Orders findOrderById(Integer oid){
@@ -154,6 +156,12 @@ public class OrdersController {
     @ResponseBody
     public String updateOrder(Orders orders,String sDate) throws ParseException {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        //重新计算总价
+        int amount =Integer.parseInt(orders.getAmount());
+        BigDecimal price = orders.getUnitPrice();
+        BigDecimal sum=new BigDecimal(amount*price.intValue());
+        orders.setSumPrice(sum);
+        //日期
         orders.setStartDate(sdf.parse(sDate));
         int i = ordersService.updateOrderById(orders);
          if(i>0){

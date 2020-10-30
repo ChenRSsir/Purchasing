@@ -28,4 +28,13 @@ public interface StockMapper {
     int updateByPrimaryKeySelective(Stock record);
 
     int updateByPrimaryKey(Stock record);
+
+    //获取最新的一条数据
+    Stock findForInsert();
+
+    //分页查询采购计划
+    List<Stock> findStockEnquire(@Param("cusPage") Integer cusPage,@Param("pageSize") Integer pageSize);
+
+    //总数
+    int findStockTotal();
 }

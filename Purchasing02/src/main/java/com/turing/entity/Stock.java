@@ -37,6 +37,29 @@ public class Stock implements Serializable {
 
     private Date leadDate;
 
+    //一对一 状态对照
+    private IdMapping idMapping;
+
+    //询价书
+    private Enquire enquire;
+
+
+    public IdMapping getIdMapping() {
+        return idMapping;
+    }
+
+    public void setIdMapping(IdMapping idMapping) {
+        this.idMapping = idMapping;
+    }
+
+    public Enquire getEnquire() {
+        return enquire;
+    }
+
+    public void setEnquire(Enquire enquire) {
+        this.enquire = enquire;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

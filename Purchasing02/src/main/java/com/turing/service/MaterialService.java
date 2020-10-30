@@ -20,4 +20,12 @@ public interface MaterialService {
      */
     public Material findMaterialById(Integer id);
 
+
+    /**
+     * 通过编码获取物资
+     * @param materialNum
+     * @return
+     */
+    public Material findMaterialByNum(String materialNum);
+
 }

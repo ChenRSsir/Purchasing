@@ -3,10 +3,12 @@ package com.turing.serviceImpl;
 import com.turing.dao.MaterialMapper;
 import com.turing.entity.EasyUIDataGrid;
 import com.turing.entity.Material;
+import com.turing.entity.MaterialExample;
 import com.turing.service.MaterialService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class MaterialServiceImpl implements MaterialService {
@@ -27,6 +29,18 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public Material findMaterialById(Integer id) {
         return materialMapper.selectByPrimaryKey(new Long(id));
+    }
+
+    @Override
+    public Material findMaterialByNum(String materialNum) {
+
+        MaterialExample example=new MaterialExample();
+        example.createCriteria().andMaterialNumEqualTo(materialNum);
+        List<Material> materials = materialMapper.selectByExample(example);
+        if(materials.size()>0){
+            return materials.get(0);
+        }
+            return null;
     }
 
 }

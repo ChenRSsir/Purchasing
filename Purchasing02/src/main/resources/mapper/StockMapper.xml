@@ -19,6 +19,36 @@
     <result column="LEAD_OPINION" jdbcType="VARCHAR" property="leadOpinion" />
     <result column="LEAD_DATE" jdbcType="TIMESTAMP" property="leadDate" />
   </resultMap>
+<!--采购明细-->
+  <resultMap id="StockImEnquire" type="com.turing.entity.Stock">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="STOCK_NUM" jdbcType="VARCHAR" property="stockNum" />
+    <result column="STOCK_NAME" jdbcType="VARCHAR" property="stockName" />
+    <result column="AUTHOR_ID" jdbcType="VARCHAR" property="authorId" />
+    <result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+    <result column="STOCK_TYPE" jdbcType="VARCHAR" property="stockType" />
+    <result column="BUDGET" jdbcType="DECIMAL" property="budget" />
+    <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="SUBMIT_DATE" jdbcType="TIMESTAMP" property="submitDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="LEADER_ID" jdbcType="VARCHAR" property="leaderId" />
+    <result column="LEADER" jdbcType="VARCHAR" property="leader" />
+    <result column="LEAD_AGREE" jdbcType="VARCHAR" property="leadAgree" />
+    <result column="LEAD_OPINION" jdbcType="VARCHAR" property="leadOpinion" />
+    <result column="LEAD_DATE" jdbcType="TIMESTAMP" property="leadDate" />
+    <!--编号对照-->
+    <association property="idMapping" javaType="com.turing.entity.IdMapping">
+      <id column="imId" jdbcType="BIGINT" property="id" />
+      <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+      <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    </association>
+    <!--询价书-->
+    <association property="enquire" javaType="com.turing.entity.Enquire">
+      <id column="eid" jdbcType="BIGINT" property="id" />
+      <result column="ENQUIRE_NAME" jdbcType="VARCHAR" property="enquireName" />
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -111,7 +141,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.turing.entity.Stock">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id"  parameterType="com.turing.entity.Stock">
     insert into stock (ID, STOCK_NUM, STOCK_NAME, 
       AUTHOR_ID, AUTHOR, STOCK_TYPE, 
       BUDGET, START_DATE, END_DATE, 
@@ -382,4 +412,21 @@
       LEAD_DATE = #{leadDate,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--//获取最新的一条数据 findRecentlyForInsert();-->
+  <select id="findForInsert" resultMap="BaseResultMap">
+      select * from stock order by STOCK_NUM desc limit 0,1;
+  </select>
+
+  <select id="findStockEnquire" resultMap="StockImEnquire">
+    SELECT s.*,i.ID AS imId, i.ORDER_ID,i.STATUS,e.ID AS eid,e.ENQUIRE_NAME
+    FROM stock s  LEFT JOIN id_mapping i ON s.ID=i.STOCK_ID
+    LEFT JOIN enquire e ON i.ENQUIRE_ID=e.ID LIMIT #{cusPage},#{pageSize};
+  </select>
+
+  <select id="findStockTotal" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM stock s
+    LEFT JOIN id_mapping i ON s.ID=i.STOCK_ID
+    LEFT JOIN enquire e ON i.ENQUIRE_ID=e.ID;
+  </select>
 </mapper>

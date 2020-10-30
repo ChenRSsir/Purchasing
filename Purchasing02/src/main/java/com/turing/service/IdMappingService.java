@@ -20,5 +20,24 @@ public interface IdMappingService {
     int updOrderStatus(IdMapping idMapping);
 
 
+    /**
+     * 通过id删除编号对照
+     * @param id
+     * @return
+     */
     int deleteIdMapping(Integer id);
+
+    /**
+     * 通过需求id获取编号对照对象
+     * @param oid
+     * @return
+     */
+    IdMapping findMdMappingByOid(Integer oid);
+
+    /**
+     * 修改
+     * @param idMapping
+     * @return
+     */
+    int updateIdMapping(IdMapping idMapping);
 }

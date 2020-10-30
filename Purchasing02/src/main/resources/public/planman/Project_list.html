@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>未编采购计划的需求计划一览表</TITLE>
-<SCRIPT language=JAVASCRIPT>
+<HTML><HEAD><TITLE>采购计划一览表</TITLE>
+<SCRIPT language=JAVASCRIPT> 
 function chck()
 {  var  count=0;
    for (var i=0;i<form.length;i++)
@@ -219,69 +219,137 @@ function check_num_dot()
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
 <META content="MSHTML 6.00.2900.5626" name=GENERATOR>
 <META content=FrontPage.Editor.Document name=ProgId><LINK 
-href="css/style.css" rel=stylesheet>
+href="../css/style.css" rel=stylesheet>
   <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
   <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
   <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
   <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
   <script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+
 <SCRIPT language=javascript>
-     $(function () {
-       $("#dg").datagrid({
-            url:"/findUnPurchaseOrders",
-         pagination:'true',
-         rownumbers:'true',
-         selectOnCheck:'true',
-         checkOnSelect:'true',
-         pageList:[2,4,6,8,10],
-         columns:[[
-           {field:'',title:'',width:120,checkbox:true,align:'center'},
-           {field:'materialCode',title:'产品编码',width:255,align:'center'},
-           {field:'materialName',title:'产品名称',width:258, align:'center'},
-           {field:'amount',title:'产品数量',width:258, align:'center'},
-           {field:'unitPrice',title:'预算价格',width:258, align:'center'},
-           {field:'startDate',title:'需求时间',width:258, align:'center'},
-           {field:'sid',title:'产品状态id',hidden:true},
-           {field:'id',title:'产品id',hidden:true}
-         ]]
-       });
-       
+  $(function () {
+     $("#dg").datagrid({
+       url:"/findStockList",
+       pagination:'true',
+       rownumbers:'true',
+       selectOnCheck:'true',
+       checkOnSelect:'true',
+       pageList:[2,4,6,8,10],
+       columns:[[
+         {field:'',title:'',width:120,checkbox:true,align:'center'},
+         {field:'stockName',title:'采购计划名称',width:250,align:'center'},
+         {field:'stockType',title:'采购类型',width:270, align:'center'},
+         {field:'stockStatus',title:'状态',width:250, align:'center',formatter:function (value,row,index) {
+            if(value=="C001-30"){
+                return "未确定";
+            }else if(value=="C001-40"){
+                return "待审批";
+            }else if(value=="C001-50"){
+                return "下达";
+            }else if(value=="C001-51"){
+                return "驳回";
+            }
+           }},
+         {field:'submitDate',title:'采购计划下达时间',width:250, align:'center'},
+         {field:'enquireName',title:'对应询价书',width:270, align:'center'},
+         {field:'sid',title:'采购id',hidden:true},
+         {field:'oid',title:'需求id',hidden:true}
+       ]]
      });
-     
-     //复选
-     function select_check(theForm)
-     {
-       var count=0;
-       for (var k = 0; k < theForm.length; k++)
-         if ((theForm[k].type == "checkbox") && (theForm[k].checked))
-           count++;
-       if (count==0)
-       {
-         $("#dg").datagrid("checkAll");
-       }
-       else
-       {
-         $("#dg").datagrid("uncheckAll");
-       }
-     }
-      //创建采购计划
-     function submit_form() {
-      var rows= $("#dg").datagrid("getSelections");
-      if(rows.length==0 || rows.length==null){
-          alert("请选中一条数据！");
-      }else if(rows.length>1){
-         alert("一次只能选择一条数据！");
-      }else{
-        location.href="/protocolStock?oid="+rows[0].id;
+
+
+  });
+
+
+
+    function select_check(theForm)
+      {
+        var count=0;
+        for (var k = 0; k < theForm.length; k++)
+        if ((theForm[k].type == "checkbox") && (theForm[k].checked))
+        count++;
+         if (count==0)
+         {
+            for (k = 0; k < theForm.length; k++)
+            {
+              if (theForm[k].type == "checkbox")
+              theForm[k].checked=true;
+            }
+         }
+         else
+         {
+            for (k = 0; k < theForm.length; k++)
+            {
+              if (theForm[k].type == "checkbox")
+              theForm[k].checked=false;
+            }
+         }
       }
-     }
-  
+      
+      function submit_Checkform(theForm,i)
+      {
+        var count=0;
+        for (var k = 0; k < theForm.length; k++)
+        if ((theForm[k].type == "checkbox") && (theForm[k].checked))
+        count++;
+        if (count==0)
+        {
+          alert("提示信息：\n请选择采购计划。");
+          return;
+        }
+         document.form.p_type.value=i;
+         window.document.form.submit();
+         return true;
+      }      
+      function submit_form(theForm,i)
+      {
+        var count=0;
+        for (var k = 0; k < theForm.length; k++)
+        if ((theForm[k].type == "radio") && (theForm[k].checked))
+        count++;
+        if (count==0)
+        {
+          alert("提示信息：\n请选择采购计划。");
+          return;
+        }
+        if (i==3)
+        {
+          form.action="../Enquire/Enquire_form.asp";
+        }
+        if (i==6)
+        {
+          form.action="../Bidding/bidding_add.asp";
+        }
+         window.document.form.submit();
+         return true;
+      }
+      function submit_form_cx()
+      {
+        form.action="Project_list.asp";
+        window.document.form.submit();
+      }
+	  function workLog() 
+ 	 {
+  		window.open("work_log.htm","Canny1","toolbar=0,location=0,status=0,menubar=0,scrollbars=0,width=600,height=440,left=100,top=60");
+      
+ 	 }
+	  function xjfatzXjfamx() 
+ 	 {
+  		window.open("xjfatz_xjfamx.htm","Canny1","toolbar=0,location=0,status=0,menubar=0,scrollbars=yes,width=600,height=440,left=100,top=60");
+      
+ 	 }
 </SCRIPT>
+<style type="text/css">
+<!--
+.STYLE1 {color: #FF0000}
+-->
+</style>
 </HEAD>
 <BODY>
+<DIV id=overDiv style="Z-INDEX: 1; POSITION: absolute"></DIV>
 <CENTER>
-<FORM name=form action="" method=post>
-<H2><FONT color=#0070c0>未编采购计划的需求一览表</FONT></H2>
+<FORM name=form action="xjfatz_xjfamx.htm" method=post>
+<H2><FONT color=#0070c0>采购计划一览表</FONT></H2>
 <TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ffffff 
 borderColorLight=#ffffff border=0>
   <TBODY>
@@ -289,22 +357,23 @@ borderColorLight=#ffffff border=0>
     <TD>
       <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
         <TBODY>
-        <TR>
-          <TD noWrap align=middle>物资编码：<INPUT maxLength=15 size=15 
-            name=p_prodno>&nbsp;&nbsp; 物资名称：<INPUT maxLength=15 size=15 
-            name=p_prodname>&nbsp;&nbsp; 每页显示个数： <SELECT name=p_pagesize> 
-              <OPTION value=10 selected>10</OPTION> <OPTION value=20>20</OPTION> 
-              <OPTION value=30>30</OPTION> <OPTION value=50>50</OPTION> <OPTION 
-              value=100>100</OPTION> <OPTION value=4>全部</OPTION></SELECT> 排序： 
-            <SELECT name=p_orderby> <OPTION value="" selected>按物资代码</OPTION> 
-              <OPTION value=1>按需求时间</OPTION> <OPTION 
-                      value=2>按需求数量</OPTION></SELECT> <INPUT id=button2 onclick=submit_form_cx() type=button value=查询 name=button2></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM>
-
-  <FORM name="form1" action="" method="Post">
+        <TR bgColor=#ffffff>
+          <TD noWrap align=middle>采购计划名称：<INPUT size=10 
+            name=p_title>&nbsp;&nbsp; 物资名称：<INPUT size=10 
+            name=p_Item>&nbsp;&nbsp; 计划状态：<SELECT style="WIDTH: 115px" 
+            name=p_status> <OPTION value="" selected>全部</OPTION> <OPTION 
+              value=70>未确定</OPTION> <OPTION value=80>待审</OPTION> 
+              <OPTION value=100>驳回</OPTION> <OPTION value=110>下达</OPTION> 
+              <OPTION value=120>通过</OPTION> <OPTION value=140>废弃</OPTION> 
+              </SELECT>&nbsp;&nbsp; 采购类型：<SELECT 
+            style="WIDTH: 80px" name=p_stocktype> <OPTION value="" 
+              selected>全部</OPTION> <OPTION value=1>公开求购</OPTION> <OPTION 
+              value=2>定向询价</OPTION></SELECT>&nbsp;&nbsp; <INPUT onclick=submit_form_cx() type=button value=查询></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+  <FORM name="form1" action="xjfatz_xjfamx.htm" method="Post">
 
     <table id="dg"></table>
-<CENTER>
-<INPUT type=hidden value=0 name=p_type>
-<P align=center><INPUT onclick=select_check(document.forms['form1']) type=button value=全选/取消>
-  <INPUT onclick=submit_form() type=button value=编制采购计划 name=upd> <INPUT onClick=" javascript:history.back()" type=button value=返回 name=goback>
-</P></CENTER></FORM></CENTER></BODY></HTML>
+<INPUT type=hidden value=1 name=p_listtype>
+<P align=center>
+<INPUT onClick="if(confirm('报批后，采购计划将进行审批流程！ 状态改为待审')){alert('ok');}else{alert('Not Ok');}" type=button value=报批>
+<INPUT onclick=submit_form(document.form,1) type=button value=详情> <INPUT onClick=" javascript:history.back()" type=button value=返回> 
+</P></FORM></CENTER></CENTER></BODY></HTML>
