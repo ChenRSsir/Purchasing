@@ -233,6 +233,7 @@ href="../css/style.css" rel=stylesheet>
        pagination:'true',
        rownumbers:'true',
        selectOnCheck:'true',
+       singleSelect:'true',
        checkOnSelect:'true',
        pageList:[2,4,6,8,10],
        columns:[[
@@ -248,15 +249,61 @@ href="../css/style.css" rel=stylesheet>
                 return "下达";
             }else if(value=="C001-51"){
                 return "驳回";
+            }else if(value=="C001-52"){
+                return "废弃";
             }
            }},
          {field:'submitDate',title:'采购计划下达时间',width:250, align:'center'},
          {field:'enquireName',title:'对应询价书',width:270, align:'center'},
          {field:'sid',title:'采购id',hidden:true},
-         {field:'oid',title:'需求id',hidden:true}
+         {field:'oid',title:'需求id',hidden:true},
+         {field:'imId',title:'编号对照id',hidden:true}
+
        ]]
      });
 
+     //详情
+     $("#btn1").click(function () {
+       var rows= $("#dg").datagrid("getSelections");
+       if(rows.length==0 || rows.length==null){
+         alert("请选中一条数据！");
+       }else if(rows.length>1){
+         alert("一次只能选择一条数据！");
+       }else{
+         location.href="/findStockDetails?sid="+rows[0].sid+"&oid="+rows[0].oid+"&stockStatus="+rows[0].stockStatus;
+       }
+     });
+
+     //报批
+     $("#btn2").click(function () {
+       var rows= $("#dg").datagrid("getSelections");
+       if(rows.length==0 || rows.length==null){
+         alert("请选中一条数据！");
+       }else if(rows[0].stockStatus=="C001-40"){
+         alert("请勿重复报批！");
+       }else if(rows[0].stockStatus=="C001-51"){
+         alert("驳回采购不允许报批！");
+       }else if(rows[0].stockStatus=="C001-52"){
+         alert("废弃采购不允许报批！");
+       }else{
+         if (confirm("点击确认以后将进入审核状态，状态变为待审核！")) {
+             $.ajax({
+                  url:"/StockApproval",
+                  type:"get",
+                  data:{"imId":rows[0].imId},
+                   success:function (data) {
+                      if(data=="true"){
+                         alert("报批成功！");
+                         //刷新页面
+                         $("#dg").datagrid("reload");
+                      }else{
+                        alert("报批失败！");
+                      }
+           }
+             });
+         }
+       }
+     });
 
   });
 
@@ -348,7 +395,7 @@ href="../css/style.css" rel=stylesheet>
 <BODY>
 <DIV id=overDiv style="Z-INDEX: 1; POSITION: absolute"></DIV>
 <CENTER>
-<FORM name=form action="xjfatz_xjfamx.htm" method=post>
+<FORM name=form action="../../templates/xjfatz_xjfamx.html" method=post>
 <H2><FONT color=#0070c0>采购计划一览表</FONT></H2>
 <TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ffffff 
 borderColorLight=#ffffff border=0>
@@ -369,11 +416,11 @@ borderColorLight=#ffffff border=0>
             style="WIDTH: 80px" name=p_stocktype> <OPTION value="" 
               selected>全部</OPTION> <OPTION value=1>公开求购</OPTION> <OPTION 
               value=2>定向询价</OPTION></SELECT>&nbsp;&nbsp; <INPUT onclick=submit_form_cx() type=button value=查询></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
-  <FORM name="form1" action="xjfatz_xjfamx.htm" method="Post">
+  <FORM name="form1" action="../../templates/xjfatz_xjfamx.html" method="Post">
 
     <table id="dg"></table>
 <INPUT type=hidden value=1 name=p_listtype>
 <P align=center>
-<INPUT onClick="if(confirm('报批后，采购计划将进行审批流程！ 状态改为待审')){alert('ok');}else{alert('Not Ok');}" type=button value=报批>
-<INPUT onclick=submit_form(document.form,1) type=button value=详情> <INPUT onClick=" javascript:history.back()" type=button value=返回> 
+<INPUT id="btn2" type=button value=报批>
+<INPUT type=button id="btn1" value=详情> <INPUT onClick=" javascript:history.back()" type=button value=返回>
 </P></FORM></CENTER></CENTER></BODY></HTML>

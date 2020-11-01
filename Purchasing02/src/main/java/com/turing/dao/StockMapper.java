@@ -37,4 +37,10 @@ public interface StockMapper {
 
     //总数
     int findStockTotal();
+
+    //通过状态查询采购信息
+   List<Stock> findPurchaseRequest(@Param("status")String status,@Param("cusPage") Integer cusPage,@Param("pageSize") Integer pageSize);
+
+   //通过状态查询采购信息数量
+   int findPurchaseRequestTotal(@Param("status")String status);
 }

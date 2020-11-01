@@ -28,4 +28,22 @@ public interface StockService {
      * @return
      */
     public EasyUIDataGrid findStockList(Integer cusPage,Integer pageSize);
+
+
+    /**
+     * 根据id查询
+     * @param sid
+     * @return
+     */
+    public Stock findStockById(Integer sid);
+
+
+    /**
+     * 通过状态查询采购
+     * @param status
+     * @param cusPage
+     * @param pageSize
+     * @return
+     */
+    public EasyUIDataGrid purchaseRequest(String status,Integer cusPage,Integer pageSize);
 }

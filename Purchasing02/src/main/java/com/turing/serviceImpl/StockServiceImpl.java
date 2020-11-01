@@ -90,4 +90,20 @@ public class StockServiceImpl implements StockService {
         easyUIDataGrid.setTotal(stockMapper.findStockTotal());
         return easyUIDataGrid;
     }
+
+    @Override
+    public Stock findStockById(Integer sid) {
+        return stockMapper.selectByPrimaryKey(new Long(sid));
+    }
+
+    @Override
+    public EasyUIDataGrid purchaseRequest(String status, Integer cusPage, Integer pageSize) {
+
+        EasyUIDataGrid easyUIDataGrid=new EasyUIDataGrid();
+        List<Stock> purchaseRequest = stockMapper.findPurchaseRequest(status, (cusPage-1)*pageSize, pageSize);
+         easyUIDataGrid.setRows(purchaseRequest);
+         easyUIDataGrid.setTotal(stockMapper.findPurchaseRequestTotal(status));
+        return easyUIDataGrid;
+    }
+
 }

@@ -79,8 +79,6 @@ public class StockContorller {
 
         //采购类型
         stock.setStockType("C000-1");
-        //编制时间
-        stock.setStartDate(new Date());
 
         //添加
         stockService.addStock(stock);
@@ -121,6 +119,7 @@ public class StockContorller {
             }
             map.put("sid",s.getId().toString());//对应采购id
             map.put("oid",s.getIdMapping().getOrderId().toString());//对应需求id
+            map.put("imId",s.getIdMapping().getId().toString());//对照表id
 
             list.add(map);
         }
@@ -133,4 +132,43 @@ public class StockContorller {
         return easyUIDataGrid;
     }
 
+
+    //采购明细查询
+    @RequestMapping("/findStockDetails")
+    public ModelAndView findStockDetails(Integer sid,Integer oid,String stockStatus){
+      ModelAndView mv=new ModelAndView("/xjfatz_xjfamx");
+      //获取采购信息
+        Stock stock = stockService.findStockById(sid);
+        //获取需求信息
+        Orders order = ordersService.findOrderById(oid);
+        mv.addObject("stock",stock);
+        mv.addObject("order",order);
+        mv.addObject("stockStatus",stockStatus);
+
+        return mv;
+    }
+
+
+    //报批
+    @RequestMapping("/StockApproval")
+    @ResponseBody
+    public String StockApproval(Integer imId){
+        IdMapping idMapping=new IdMapping();
+        idMapping.setId(new Long(imId));
+        idMapping.setStatus("C001-40");
+        int rows = idMappingService.updOrderStatus(idMapping);
+        if(rows>0){
+            return "true";
+        }
+            return "false";
+    }
+
+    //采购申请一览
+    @RequestMapping("/purchaseRequest")
+    @ResponseBody
+    public EasyUIDataGrid purchaseRequest(@RequestParam(value = "page",defaultValue = "1") Integer cusPage,@RequestParam(value = "rows",defaultValue = "2") Integer pageSize){
+        String status="C001-40";
+        EasyUIDataGrid easyUIDataGrid = stockService.purchaseRequest(status, cusPage, pageSize);
+        return easyUIDataGrid;
+    }
 }

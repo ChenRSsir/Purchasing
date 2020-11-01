@@ -41,6 +41,7 @@
     <association property="idMapping" javaType="com.turing.entity.IdMapping">
       <id column="imId" jdbcType="BIGINT" property="id" />
       <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+      <result column="STOCK_ID" jdbcType="BIGINT" property="stockId" />
       <result column="STATUS" jdbcType="VARCHAR" property="status" />
     </association>
     <!--询价书-->
@@ -428,5 +429,18 @@
     SELECT COUNT(*) FROM stock s
     LEFT JOIN id_mapping i ON s.ID=i.STOCK_ID
     LEFT JOIN enquire e ON i.ENQUIRE_ID=e.ID;
+  </select>
+
+  <select id="findPurchaseRequest" resultMap="StockImEnquire">
+SELECT *,i.ID as imId FROM
+stock s,id_mapping i WHERE
+s.ID=i.STOCK_ID AND
+i.STATUS=#{status} LIMIT ${cusPage},${pageSize};
+  </select>
+  
+  <select id="findPurchaseRequestTotal" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM
+    stock s,id_mapping i WHERE
+    s.ID=i.STOCK_ID AND i.STATUS=#{status}
   </select>
 </mapper>
