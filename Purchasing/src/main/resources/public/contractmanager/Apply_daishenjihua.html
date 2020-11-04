@@ -1,0 +1,324 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://169.254.158.100/zzdl/ContApply/Apply_list.asp?p_type=3 -->
+<HTML><HEAD><TITLE>待审批采购申请一览表</TITLE>
+<SCRIPT language=JAVASCRIPT> 
+function chck()
+{  var  count=0;
+   for (var i=0;i<form.length;i++)
+   if ((form[i].type == "radio") && (form[i].checked))
+   count++; 
+   if (count==0)
+      { return false;  }
+   else
+      { return true;   }
+}
+ 
+function Add(SourceList,TargetList)
+	{
+	var nIndex = SourceList.selectedIndex;
+ 	var nCount = 0;  
+	if (nIndex == -1)
+	{
+		// Process continue only if at least one item selected
+		//alert("请先选择一项!");
+		return;
+	}
+	for (i=0;i<SourceList.length;i++)
+  {
+     if (SourceList.options(i).selected==true)
+     {    
+         if (inSouceList(SourceList.options(i).value,TargetList)==false)
+         {
+          	var objSelected = new Option(SourceList[i].text, SourceList[i].value);
+           	TargetList.options[TargetList.length] = objSelected;
+         }
+     }     
+	}
+  for (var i=0;i<TargetList.options.length;i++)
+  {
+    TargetList.options(i).selected=true;
+  }
+	if(navigator.appName=="Netscape")
+	{
+		history.go(0)
+	}
+ }
+ function inSouceList(SourceListOption,TargetList)
+ {
+ 	  for (i=0;i<TargetList.length;i++)
+    {
+	     if (TargetList.options[i].value==SourceListOption)
+       {
+        	 return true;
+       }
+    }   
+    return false;
+ }  
+function Remove(SelectList)
+	{
+	var nIndex = SelectList.selectedIndex;
+ 	var nCount = 0;
+	if (nIndex == -1)
+	{
+		// Process continue only if at least one item selected
+		//alert("请先选择一项!");
+		return;
+	}
+  while(nCount<SelectList.length)
+  {
+       if (SelectList.options(nCount).selected==true)
+       {
+       	 SelectList.options[nCount] = null;
+       }
+       else
+       {
+         nCount++;
+       }
+  }
+	if(navigator.appName=="Netscape")
+		{
+		history.go(0)
+		}	
+	}
+ function enter()
+ {
+   var srcEle = window.event.srcElement;
+   var tmp;   
+   tmp = window.showModalDialog("pub_pub.Dialog_Date?vc_input=" + srcEle.value);
+     if ( tmp.indexOf("/") != -1)
+     {
+        srcEle.value = tmp;
+     }
+     return;
+ }   
+ function check_num()
+ {
+ 	 if (window.event.keyCode > 57 || window.event.keyCode < 48)
+	 {
+	 		window.event.returnValue = false;
+	 }
+ }
+ function check_blank()
+ {
+ 	 if (window.event.keyCode < 48)
+	 {
+	 		window.event.returnValue = false;
+	 }
+ }
+  
+function check_num_dot()
+{
+ 	 if (window.event.keyCode > 57 || window.event.keyCode < 46)
+	 {
+  		 window.event.returnValue = false;   
+	 }
+   else
+   {
+      if(window.event.keyCode==47)
+      {
+    		 window.event.returnValue = false;
+      }
+      if(window.event.keyCode==46)
+      {
+         if (window.event.srcElement.value.indexOf(".")!=-1)
+         {
+        		 window.event.returnValue = false;
+         }
+      }   
+    }  
+ }
+  
+ function submitonce(theform)
+ {
+ if (document.all || document.getElementById)
+ {
+ for (i=0;i<theform.length;i++)
+ {
+ var tempobj = theform.elements[i]
+ if (tempobj.type.toLowerCase() =="button")
+ tempobj.disabled = true
+ }
+ }
+ }
+ 
+  function CheckAll() 
+ {
+   var i = 0;
+   for (i=0; i < window.document.forms[0].elements.length; i++) 
+   {
+     if(window.document.forms[0].elements[i].Chk<3) 
+     {
+       if(window.document.forms[0].elements[i].value=="")
+       {
+         alert(window.document.forms[0].elements[i].alt);
+         window.document.forms[0].elements[i].focus();
+         return;
+       }
+       else if (window.document.forms[0].elements[i].Chk==2)
+       {
+         if (NotNumber(window.document.forms[0].elements[i].value))
+         {
+            alert("提示信息：\n不是有效的数字，请重新输入。");
+            window.document.forms[0].elements[i].focus();
+            return;
+         }
+       }
+     }
+     else if(window.document.forms[0].elements[i].Chk==3)
+     {
+       if(window.document.forms[0].elements[i].value!="")
+       {
+         if (NotNumber(window.document.forms[0].elements[i].value))
+         {
+            alert("提示信息：\n不是有效的数字，请重新输入。");
+            window.document.forms[0].elements[i].focus();
+            return;
+         }
+       }
+     }
+   }
+   window.document.forms[0].submit();
+   return true;
+ }
+ function NotNumber(Field)
+ {
+   var j = 0;
+   var k = 0;
+   for (var i=0; i<Field.length; i++)
+   {
+      var ch=Field.substring(i,i+1);
+      if((ch>="0")&&(ch<="9")) 
+      {
+        j=0;
+      }
+      else if(ch==".") 
+      {
+        k++;
+      }
+      else
+      {
+        j=1;
+        break;
+      }
+   }
+   if ((j==0)&&(k<2))
+   {
+      return false;
+   }
+   else
+   {
+      return true;
+   }
+ }
+ function openwindown(page)
+ {
+    window.open(page,"newuser","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700,height=400,left=100,top=150");
+ }
+</SCRIPT>
+
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId><LINK 
+href="js/style.css" rel=stylesheet>
+  <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+  <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+<SCRIPT language=javascript>
+    $(function (){
+      $("#dg").datagrid({
+        url:"/purchaseRequest",
+        pagination:'true',
+        rownumbers:'true',
+        selectOnCheck:'true',
+        singleSelect:'true',
+        checkOnSelect:'true',
+        pageList:[2,4,6,8,10],
+        columns:[[
+          {field:'',title:'',width:120,checkbox:true,align:'center'},
+          {field:'stockName',title:'采购计划名称',width:250,align:'center'},
+          {field:'status',title:'采购进度',width:250,align:'center'},
+          {field:'stockType',title:'采购类型',width:270, align:'center',formatter:function (value,row,index){
+              if(value=="C000-1"){
+                    return "公开求购";
+              }
+          }},
+          {field:'budget',title:'预算金额',width:220,align:'center'},
+          {field:'remark',title:'备注',width:230,align:'center'},
+          {field:'sid',title:'采购id',hidden:true},
+          {field:'oid',title:'需求id',hidden:true},
+          {field:'imId',title:'状态id',hidden:true}
+          ]]
+      });
+
+    });
+
+
+
+      function submit_form(theForm,i)
+      {
+        var count=0;
+        for (var k = 0; k < theForm.length; k++)
+        if ((theForm[k].type == "radio") && (theForm[k].checked))
+        count++;
+        if (count==0)
+        {
+         alert("提示信息：\n请选择合同申请。");
+         return;
+        }
+        document.form.p_type.value=i;
+        window.document.form.action ="Apply_list_do.asp";
+        window.document.form.submit();
+        return true;
+      }
+
+	  function shenpi()
+	{
+      var rows= $("#dg").datagrid("getSelections");
+      if(rows.length==null || rows.length==""){
+        alert("请选择一条数据！");
+      }else if(rows>1){
+        alert("一次只能审批一条数据！");
+      }else {
+        window.document.location="/applyCaiWuShenPi?sid="+rows[0].sid+"&oid="+rows[0].oid+"&imId="+rows[0].imId;
+      }
+	}
+
+	 function dakai()
+	{
+      var rows= $("#dg").datagrid("getSelections");
+      if(rows.length==null || rows.length==""){
+         alert("请选择一条数据！");
+      }else if(rows>1){
+         alert("一次只能查看一条数据！");
+      }else {
+        window.document.location="/applyList?sid="+rows[0].sid+"&oid="+rows[0].oid+"&imId="+rows[0].imId;
+      }
+	}
+
+</SCRIPT>
+</HEAD>
+<BODY>
+<CENTER>
+<FORM name=form action=Apply_list_do.asp method=post>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor=#336699 borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR bgColor=#ffffff>
+          <TD align=middle width="100%" bgColor=#ffffff colSpan=20 
+            height=22><B>
+            <H2><FONT color=#0070c0>采购申请一览表</B><IMG alt=帮助
+            src="img/help_a.gif" border=0> </FONT></H2></TD></TR>
+        </TBODY></TABLE></TD></TR></TBODY></TABLE>
+
+     <table id="dg"></table>
+
+  <INPUT type=hidden name=p_type> <INPUT type=hidden value=3 name=p_lx>
+<P align=center><input type="button" value="打开" onclick="dakai();" />&nbsp;<input type="button" value="审批" onclick="shenpi();" />&nbsp;<INPUT onclick=" javascript:history.back()" type=button value=返回 name=FLOWLEADShow> 
+</P></FORM></CENTER></BODY></HTML>

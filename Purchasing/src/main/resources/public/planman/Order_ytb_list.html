@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>需求一览表</TITLE>
+
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId>
+    <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+    <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+    <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+
+    <script type="text/javascript">
+       $(function(){
+         $("#dg").datagrid({
+             url:"/findOrders",
+             pagination:'true',
+             rownumbers:'true',
+             selectOnCheck:'true',
+             checkOnSelect:'true',
+             pageList:[2,4,6,8,10],
+             columns:[[
+                 {field:'',title:'',width:120,checkbox:true,align:'center'},
+                 {field:'materialCode',title:'产品编码',width:255,align:'center'},
+                 {field:'materialName',title:'产品名称',width:258, align:'center'},
+                 {field:'amount',title:'产品数量',width:258, align:'center'},
+                 {field:'pType',title:'采购类型',width:258, align:'center'},
+                 {field:'sid',title:'产品状态id',hidden:true},
+                 {field:'id',title:'产品id',hidden:true},
+                 {field:'status',title:'采购进度',width:260, align:'center',formatter:function (value,row,index) {
+                         if(value=="C001-10"){
+                            return '未确定';
+                         }else if(value=="C001-20"){
+                             return '确定';
+                         }else {
+                             return '确定';
+                         }
+                     }}
+             ]]
+         });
+
+       });
+
+
+       //复选
+       function select_check(theForm)
+       {
+           var count=0;
+           for (var k = 0; k < theForm.length; k++)
+               if ((theForm[k].type == "checkbox") && (theForm[k].checked))
+                   count++;
+           if (count==0)
+           {
+               $("#dg").datagrid("checkAll");
+           }
+           else
+           {
+               $("#dg").datagrid("uncheckAll");
+           }
+       }
+
+       //选择确定
+       function quedingData() {
+           var ids=[];
+           var rows = $('#dg').datagrid('getSelections');   //getSelections 是固定参数
+           if(rows.length>0){
+               for(var i=0;i<rows.length;i++){
+                   if(rows[i].status=="C001-20"){
+                       alert('有已经确定的数据，请重新选择');
+                       return false;
+                   }else if(rows[i].status=="C001-10"){
+                       ids.push(rows[i].sid);
+                   }else{
+                       alert('有已经确定的数据，请重新选择');
+                       return false;
+                   }
+
+               }
+               location.href="/updateOrdersStatus?ids="+ids;
+           }else{
+               alert('请至少选择一条数据');
+           }
+       }
+
+
+       //查看详情
+       function ddtzDdmx() {
+           var rows = $('#dg').datagrid('getSelections');   //getSelections 是固定参数
+           if(rows.length==null || rows.length==0){
+               alert("请至少选择一条！");
+           }else if(rows.length>1){
+               alert("一次只能查看一条数据！");
+           }else{
+               window.open("print_order_detail.html?"+rows[0].id,"Canny2","toolbar=0,location=0,status=0,menubar=0,scrollbars=0,width=600,height=440,left=100,top=60");
+           }
+       }
+
+       //修改
+       function update_xuqiujihua() {
+           var rows = $('#dg').datagrid('getSelections');   //getSelections 是固定参数
+           if(rows.length==null || rows.length==0){
+               alert("请至少选择一条！");
+               return false;
+           }else if(rows.length>1){
+               alert("一次只能修改一条数据！");
+               return false;
+           }else if(rows[0].status=="C001-20"){
+              alert("已确定的需求不能修改！");
+              return false;
+           }else if(rows[0].status=="C001-10"){
+               location.href="/planman/update_xuqiujihua.html?"+rows[0].id;
+           }else {
+               alert("已确定的需求不能修改！");
+               return false;
+           }
+       }
+
+       //删除
+        function delData() {
+            var rows = $('#dg').datagrid('getSelections');   //getSelections 是固定参数
+            if(rows.length==null || rows.length==0){
+                alert("请至少选择一条！");
+                return false;
+            }else if(rows.length>1){
+                alert("一次只能删除一条数据！");
+                return false;
+            }else if(rows[0].status=="C001-10"){
+               if(confirm("确定删除吗？")) {
+                   $.ajax({
+                       url: "/deleteOrder",
+                       type: "post",
+                       data: {
+                           "oid": rows[0].id,
+                           "sid": rows[0].sid
+                       },
+                       success: function (data) {
+                           if (data == "true") {
+                               alert("删除成功！");
+                               $("#dg").datagrid("reload");
+                           } else {
+                               alert("删除失败！");
+                           }
+                       }
+                   });
+               }
+            }else {
+                alert("以确定需求不允许删除！");
+            }
+        }
+              function chaxun(){
+                  $('#dg').datagrid({
+                      queryParams: {
+                          materialCode: $('#materialCode').val(),
+                          materialName: $('#materialName').val(),
+                          status:$("#status").val()
+                      }
+                  });
+              }
+
+    </script>
+</HEAD>
+<BODY>
+<CENTER>
+<H2><FONT color=#0070c0>需求计划一览表</FONT></H2>
+<TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ffffff 
+borderColorLight=#ffffff border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD noWrap align=middle>物资编码：<INPUT size=10 
+            id="materialCode">&nbsp;&nbsp; 物资名称：<INPUT size=10
+            id="materialName">&nbsp;&nbsp; 状态：
+            <SELECT style="WIDTH: 115px" 
+            id="status">
+              <OPTION value="" selected>全部</OPTION>
+              <OPTION 
+              value="C001-10">未确定</OPTION>
+              <OPTION 
+              value="C001-20">确定</OPTION>
+            </SELECT> <INPUT onclick="chaxun()" type=button value=查询></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+    <form name="form1" action="" method="Post">
+<CENTER>
+
+   <table id="dg"></table>
+<INPUT
+type=hidden value=3 name=p_listtype> <INPUT type=hidden value=1 name=page> 
+<P align=center>
+<INPUT name="button" type=button onclick=select_check(document.forms['form1']) value=全选/取消>
+<INPUT onClick="quedingData()" type=button value=确定>
+<INPUT onClick="javascript:ddtzDdmx()" type=button value=详情> <INPUT onClick="update_xuqiujihua();" type=button value=修改 name=‘xiugai’> <INPUT onClick="delData();" type=button value=删除>
+</P>
+</CENTER></form></CENTER></BODY></HTML>

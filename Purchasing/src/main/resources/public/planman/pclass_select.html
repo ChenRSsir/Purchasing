@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>选择物资</TITLE>
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId><LINK 
+href="css/style.css" rel=stylesheet>
+    <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+    <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+    <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript">
+      $(function () {
+          $("#dg").datagrid({
+              url:"/findMaterial",
+              pagination:'true',
+              rownumbers:'true',
+              selectOnCheck:'true',
+              checkOnSelect:'true',
+              pageList:[2,4,6,8,10],
+              columns:[[
+                  {field:'',title:'',width:120,checkbox:true,align:'center'},
+                  {field:'materialNum',title:'产品编码',width:430,align:'center'},
+                  {field:'id',title:'产品id',hidden:true},
+                  {field:'materialName',title:'产品名称',width:430, align:'center'},
+                  {field:'materialUnit',title:'产品单位',width:430, align:'center'}
+              ]]
+          });
+
+
+          $("#sub").click(function () {
+              var ids=[];
+              var rows = $('#dg').datagrid('getSelections');   //getSelections 是固定参数
+             if(rows.length>0){
+                 for(var i=0;i<rows.length;i++){
+                     ids.push(rows[i].id);
+                 }
+                 location.href='/findMaterialById/'+ids;
+             }else{
+                 $.messager.alert('警告','请至少选择一条数据');
+             }
+
+          });
+      });
+
+    </script>
+</HEAD>
+<BODY>
+<CENTER>
+    <FONT color=red>选择物资</FONT>====&gt;录入需求计划====&gt;需求计划确认
+
+    <table id="dg"></table>
+
+
+                <div align="center">
+                    请先选择物资，然后点击：<A id="sub"><FONT size=3><U>下一步</U></FONT></A>
+                    </div>
+</CENTER></BODY></HTML>

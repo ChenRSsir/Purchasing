@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>采购计划一览表</TITLE>
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId><LINK
+href="js/style.css" rel=stylesheet>
+  <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+  <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+
+<SCRIPT language=javascript>
+  $(function () {
+    $("#dg").datagrid({
+      url: "/unInquiry",
+      pagination: 'true',
+      rownumbers: 'true',
+      selectOnCheck: 'true',
+      singleSelect: 'true',
+      checkOnSelect: 'true',
+      pageList: [2, 4, 6, 8, 10],
+      columns: [[
+        {field: '', title: '', width: 120, checkbox: true, align: 'center'},
+        {field: 'stockName', title: '采购计划名称', width: 250, align: 'center'},
+        {field: 'stockType', title: '采购类型', width: 220, align: 'center'},
+        {field: 'submitDate', title: '采购计划下达时间', width: 250, align: 'center'},
+        {field: 'budget', title: '预算金额', width: 220, align: 'center'},
+        {field: 'remark', title: '备注', width: 280, align: 'center'},
+        {field: 'sid', title: '采购id', hidden: true},
+        {field: 'oid', title: '需求id', hidden: true},
+        {field: 'imId', title: '编号对照id', hidden: true}
+
+      ]]
+    });
+
+
+  });
+
+
+
+    function select_check(theForm)
+      {
+        var count=0;
+        for (var k = 0; k < theForm.length; k++)
+        if ((theForm[k].type == "checkbox") && (theForm[k].checked))
+        count++;
+         if (count==0)
+         {
+            for (k = 0; k < theForm.length; k++)
+            {
+              if (theForm[k].type == "checkbox")
+              theForm[k].checked=true;
+            }
+         }
+         else
+         {
+            for (k = 0; k < theForm.length; k++)
+            {
+              if (theForm[k].type == "checkbox")
+              theForm[k].checked=false;
+            }
+         }
+      }
+      
+      function submit_Checkform(theForm,i)
+      {
+        var count=0;
+        for (var k = 0; k < theForm.length; k++)
+        if ((theForm[k].type == "checkbox") && (theForm[k].checked))
+        count++;
+        if (count==0)
+        {
+          alert("提示信息：\n请选择采购计划。");
+          return;
+        }
+         document.form.p_type.value=i;
+         window.document.form.submit();
+         return true;
+      }      
+      function submit_form(theForm,i)
+      {
+        var count=0;
+        for (var k = 0; k < theForm.length; k++)
+        if ((theForm[k].type == "radio") && (theForm[k].checked))
+        count++;
+        if (count==0)
+        {
+          alert("提示信息：\n请选择采购计划。");
+          return;
+        }
+        if (i==3)
+        {
+          form.action="../Enquire/Enquire_form.asp";
+        }
+        if (i==6)
+        {
+          form.action="../Bidding/bidding_add.asp";
+        }
+         document.form.p_type.value=i;
+         window.document.form.submit();
+         return true;
+      }
+      function submit_form_cx()
+      {
+        form.action="Project_list.asp";
+        window.document.form.submit();
+      }
+	  function workLog() 
+ 	 {
+  		window.open("Enquire_xjsmx.htm","Canny1","toolbar=0,location=0,status=0,menubar=0,scrollbars=yes,width=600,height=440,left=100,top=60");
+      
+ 	 }
+	  function xjfatzXjfamx() 
+ 	 {
+  		window.open("xjfatz_xjfamx.htm","Canny1","toolbar=0,location=0,status=0,menubar=0,scrollbars=0,width=600,height=440,left=100,top=60");
+      
+ 	 }
+
+	function dakai()
+	{
+      var rows= $("#dg").datagrid("getSelections");
+      if(rows.length==0 || rows.length==null){
+        alert("请选中一条数据！");
+      }else if(rows.length>1){
+        alert("一次只能选择一条数据！");
+      }else{
+        location.href="/findStockDetails?sid="+rows[0].sid+"&oid="+rows[0].oid+"&imId="+rows[0].imId;
+      }
+	}
+
+</SCRIPT>
+</HEAD>
+<BODY>
+<DIV id=overDiv style="Z-INDEX: 1; POSITION: absolute"></DIV>
+<CENTER>
+<FORM name=form action=Project_list_do.asp method=post><INPUT type=hidden 
+value=1 name=p_type> 
+<H2><FONT color=#0070c0>未编制询价书一览表</FONT></H2>
+<TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ffffff 
+borderColorLight=#ffffff border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR bgColor=#ffffff>
+          <TD noWrap align=middle>采购计划名称：<INPUT size=10
+            name=p_title>&nbsp;&nbsp; 物资名称：<INPUT size=10
+            name=p_Item>&nbsp;&nbsp; 采购类型：<SELECT
+            style="WIDTH: 80px" name=p_stocktype> <OPTION value=""
+              selected>全部</OPTION> <OPTION value=1>公开求购</OPTION> <OPTION
+              value=2>定向询价</OPTION></SELECT>&nbsp;&nbsp; <INPUT onclick=submit_form_cx() type=button value=查询></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><FORM
+name="form1" action="" method="Post">
+  <TBODY>
+  <TR>
+    <TD>
+      <table id="dg"></table>
+    </TD>
+        </TBODY></TABLE></TD></TR></TBODY></TABLE><INPUT type=hidden
+value=1 name=p_listtype> 
+<P align=center><INPUT onClick="dakai();" type=button value=编制>
+  <INPUT onClick=" javascript:history.back()" type=button value=返回>
+</P></FORM></CENTER></CENTER></BODY></HTML>
+

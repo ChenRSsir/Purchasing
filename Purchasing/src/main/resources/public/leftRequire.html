@@ -1,0 +1,57 @@
+<HTML>
+	<HEAD>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link rel="stylesheet" type="text/css"  href="jquery-easyui-1.8.5\themes\default\easyui.css"/>
+		<link rel="stylesheet" type="text/css" href="jquery-easyui-1.8.5/themes/icon.css"/>
+		<script type="text/javascript" src="jquery-easyui-1.8.5/jquery.min.js"></script>
+		<script type="text/javascript" src="jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+		</HEAD>
+
+
+	<BODY style="cursor: default; background: #e7f3ff;" text=#000000 leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+	<div class="easyui-accordion" id="myAccordion" style="width:200px;height:300px;" data-options="fit:'true'">
+	</div>
+	<script type="text/javascript">
+		$.ajax({
+			url:"/getMenus",
+			type:"Get",
+			dataType:"JSON",
+			success:function (data) {
+				//console.log(data);
+				//遍历data创建一级菜单
+				$(data).each(function (index,menu) {
+					if(menu.id==1){//跟菜单
+						$("#myAccordion").accordion('add',{
+							title:menu.text,
+							id:"first"+menu.id
+						});
+						//在一级菜单下创建树形菜单
+						$("#first"+menu.id).html("<ul id='myTree"+menu.id+"'></ul>");
+
+						$("#myTree"+menu.id).tree({
+							data:menu.children,//子节点集合
+							animate:true,
+							onClick:function (node) {
+								//判断节点的属性或url为空
+								if(node.attributes==null|| node.attributes.url==null){
+                                       return;
+								}else{
+									window.parent.main.location=node.attributes.url;
+								}
+
+							}
+						});
+
+					}
+				});
+			}
+		});
+
+	</script>
+</BODY>
+</HTML>
+
+
+
+
+
