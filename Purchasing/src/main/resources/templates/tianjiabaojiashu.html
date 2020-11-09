@@ -1,0 +1,220 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script Language="JavaScript" src="../pub_Calendar.js"></script>
+    </head>
+    <link rel="stylesheet" href="../supplyman/css/style.css">
+    <title>添加报价书</title>
+<body bgcolor="#B9D3EE">
+<center>
+
+    <form name="form"  id="myForm" action="Quote_SV.ASP" method="post">
+        <input type="hidden" name="orderId" th:value="${order.getId()}">
+        <input type="hidden" name="materialCode" th:value="${order.getMaterialCode()}">
+        <input type="hidden" name="materialName" th:value="${order.getMaterialName()}">
+        <input type="hidden" name="measureUnit" th:value="${order.getMeasureUnit()}">
+
+
+        <TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0     width="100%"  bgColor=#336699 borderColorLight=#006699 border=0>
+            <tr>
+                <td>
+                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+
+                        <tr bgcolor="#ffffff">
+                            <td width="100%" colspan="6" bgcolor="#ffffff" align="center" height="30"><br><h2><font color="#0070C0">添加报价</br></td></tr>
+                        <tr bgcolor="#ffffff">
+                            <td width="100%" colspan="6" bgcolor="#ffffff" align="center" height="22"><center><font color="blue"><b><img src="../images/warning.gif" WIDTH="15" HEIGHT="15">&nbsp;请不要在输入金额的地方输入单位（如：元、圆），直接输入数字即可。</b></font></center></td></tr>
+
+                    </table></td></tr></table>
+
+        <TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0     width="100%"  bgColor=#336699 borderColorLight=#006699 border=0>
+            <tr>
+                <td>
+                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+
+                        <tr>
+                            <td colspan=6 align="middle" bgcolor="#99ccff"><B>需求计划1
+                            </td>
+                        </tr>
+                        <tr class=t2>
+                            <td >物资编码</td>
+                            <td  th:text="${detail.getMaterialCode()}">W64001005000<br></td>
+                            <td >物资名称</td>
+                            <td th:text="${detail.getMaterialName()}">晶振(HC-49U-500K-0.005%)<br></td>
+                            <td >计量单位</td>
+                            <td th:text="${detail.getMeasureUnit()}">个<br></td>
+                        </tr>
+
+                        <tr bgcolor="#FFFFFF">
+                            <td nowrap >单价(元/含税)</td>
+                            <td nowrap ><input type="text" name="unitPrice" size=8 Chk=2 onkeypress="check_num_dot()" onblur="get_jsz(0)"  onfocus="clearzero(form.unitPrice,0)"  maxlength=12 th:value="${order.getUnitPrice()}"></td>
+                            <td nowrap >数量</td>
+                            <td nowrap ><input type="text" name="amount" size=8 Chk=2 onkeypress="check_num_dot()"  onblur="get_jsz(0)" onfocus="clearzero(form.amount,0)"  maxlength=12 th:value="${detail.getAmount()}"></td>
+                            <td nowrap >总价(元/含税)</td>
+                            <td nowrap ><input type="text" name="sumPrice" size=8  readonly style="border: #333333; background-color: #f0f0ff;border-style: solid; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px" th:value="${order.getSumPrice()}"></td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF">
+                            <td nowrap >运杂费(元/含税)</td>
+                            <td nowrap ><input type="text" name="mixPrice" size=8 Chk=3 onkeypress="check_num_dot()"  onblur="get_jsz(0)"  onfocus="clearzero(form.mixPrice,0)"  maxlength=12 Value="0"></td>
+                            <td nowrap >其他费用(元/含税)</td>
+                            <td nowrap ><input type="text" name="otherPrice" size=8 Chk=3 onkeypress="check_num_dot()"  onblur="get_jsz(0)"  onfocus="clearzero(form.otherPrice,0)"  maxlength=12 Value="0"></td>
+                            <td nowrap >总计(元/含税)</td>
+                            <td nowrap ><input type="text" name="totalPrice" size=8 readonly style="border: #333333; background-color: #f0f0ff;border-style: solid; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px" th:value="${order.getSumPrice()}"></td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF">
+                            <td nowrap >起始到货期</td>
+                            <td nowrap ><input type="date" name="QsDate0" size="10"  >&nbsp;<img src="../images/schedure_datetime.gif" style="cursor:hand;" align="absmiddle" alt="日历对话框" onClick="fPopUpCalendarDlg(QsDate0);return false" WIDTH="16" HEIGHT="16">
+                            </td>
+                            <td nowrap >结束到货期</td>
+                            <td nowrap ><input type="date" name="JSDate0" size="10"  >&nbsp;<img src="../images/schedure_datetime.gif" style="cursor:hand;" align="absmiddle" alt="日历对话框" onClick="fPopUpCalendarDlg(JSDate0);return false" WIDTH="16" HEIGHT="16">
+                            <td nowrap ></td>
+                            <td nowrap ></td>
+                            </td>
+                        </tr>
+
+                    </table></td></tr></table>
+        <TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0     width="100%"  bgColor=#336699 borderColorLight=#006699 border=0>
+            <tr>
+                <td>
+                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+
+                        <tr bgcolor="#f2f8ff">
+                            <td nowrap><a href="javascript:SumNum()">数量合计</a></td>
+                            <td><input type="text" name="sumAmount" id="sumAmount" size="25.5" readonly onclick="ClearNum()" class="border" th:value="${order.getAmount()}"></td>
+                            <td nowrap>总金额(元)</td><td><input type="text" id="overallPrice" name="overallPrice" size="25.5" readonly class="border" th:value="${order.getSumPrice()}"></td>
+                        </tr>
+
+                        <tr bgcolor="#f2f8ff">
+                            <td nowrap>报价书标题</td>
+                            <td><input type="text" name="queTitle" id="queTitle" th:value="${'对'+enquire.getEnquireName()+'的报价'}" style="width:100%" maxlength="30"></td>
+                            <td nowrap>报价有效期</td>
+                            <td><input type="text" name="p_bjExDate" id="p_bjExDate" size="10" readonly th:value="${#dates.format(enquire.getEndDate(),'yyyy-MM-dd')}">&nbsp;<img src="../images/schedure_datetime.gif" style="cursor:hand;" align="absmiddle" alt="日历对话框" onClick="fPopUpCalendarDlg(p_bjExDate);return false" WIDTH="16" HEIGHT="16">
+                            </td>
+                        </tr>
+                        <tr bgcolor="#f2f8ff">
+                            <td nowrap>报价说明</td>
+                            <td colspan="3" style="width:100%"><textarea name="quoRemark" id="quoRemark" rows="4" style="width:100%"></textarea></td>
+                        </tr>
+
+                        <input type="hidden" name="enquireId" th:value="${enquire.getId()}">
+                    </table></td></tr></table>
+        <p Align="center">
+            <input onclick=" javascript:form_subt()" type="button" name="TJBJ" value="添加">
+            <input onclick=" javascript:form_back()" type="button" name="TJBJ" value="返回">
+        </p>
+    </form>
+</center>
+</body>
+</html>
+
+<script Language="JavaScript" src="../pub_Calendar.js"></script>
+<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+<script language="javascript">
+   function form_subt() {
+         if(confirm("确定信息填写无误吗？确定将提交报价信息！")){
+           var myfrom= $("#myForm").serialize();
+           $.ajax({
+               url:"/addQuoteAndDetail",
+               type:"post",
+               data:myfrom,
+               success:function (data) {
+                   if(data=="true"){
+                       alert("报价成功！");
+                       location.href="/supplyman/Order_wbxjfa_list.html";
+                   }else{
+                       alert("报价失败！");
+                       location.href="/supplyman/Order_wbxjfa_list.html";
+                   }
+               }
+
+           });
+         }
+   }
+
+
+
+
+
+    function form_back()
+    {  window.location="/supplyman/Order_wbxjfa_list.html";
+    }
+</script>
+<script language="javascript">
+    function get_jsz(k)      //失去焦点时计算总价，总金额
+    {var v_je=0;
+        var v_zje=0;
+        if (form.amount.length>=2)
+        { if( form.unitPrice[k].value=="" || form.unitPrice[k].value.length==0)
+            form.unitPrice[k].value=0;
+            if( form.amount[k].value=="" || form.amount[k].value.length==0)
+                form.amount[k].value=0;
+            // if( parseFloat(form.amount[k].value) > parseFloat(p_order_qut[k].value))
+            //  {alert("报价数量不能大于订单数量");
+            //   form.amount[k].focus();
+            //  }
+            if( form.mixPrice[k].value=="" || form.mixPrice[k].value.length==0)
+                form.mixPrice[k].value=0;
+            if( form.otherPrice[k].value=="" || form.otherPrice[k].value.length==0)
+                form.otherPrice[k].value=0;
+            form.sumPrice[k].value=form.unitPrice[k].value*form.amount[k].value;
+            form.totalPrice[k].value=parseFloat(form.sumPrice[k].value)+parseFloat(form.mixPrice[k].value)+parseFloat(form.otherPrice[k].value);
+            for (i=0;i<form.amount.length;i++)
+                if (form.totalPrice[i].value=="" || form.totalPrice[i].value.length==0 )
+                    v_je=0;
+                else
+                { v_je=form.totalPrice[i].value;
+                    v_zje=parseFloat(v_zje)+parseFloat(v_je);
+                }
+            form.overallPrice.value=v_zje;
+        }
+        else
+        { if( form.unitPrice.value=="" || form.unitPrice.value.length==0)
+            form.unitPrice.value=0;
+            if( form.amount.value=="" || form.amount.value.length==0)
+                form.amount.value=0;
+            // if( parseFloat(form.amount.value) > parseFloat(p_order_qut.value))
+            //   {alert("报价数量不能大于订单数量");
+            //    form.amount.focus();
+            //   }
+            if( form.mixPrice.value=="" || form.mixPrice.value.length==0)
+                form.mixPrice.value=0;
+            if( form.otherPrice.value=="" || form.otherPrice.value.length==0)
+                form.otherPrice.value=0;
+            form.sumPrice.value=form.unitPrice.value*form.amount.value;
+            form.totalPrice.value=parseFloat(form.sumPrice.value)+parseFloat(form.mixPrice.value)+parseFloat(form.otherPrice.value);
+            form.overallPrice.value=form.totalPrice.value;
+        }
+    }
+    function clearzero(p_item,k)
+    { if (p_item.length>=1)
+    {
+        if (p_item[k].value==0)
+            p_item[k].value="";
+    }
+    else
+    { if (p_item.value==0)
+        p_item.value="";
+    }
+    }
+    function SumNum()
+    {var v_sl=0;
+        var v_zsl=0;
+        if (form.amount.length>=2)
+        {for (i=0;i<form.amount.length;i++)
+            if (form.amount[i].value=="" || form.amount[i].value.length==0 )
+                v_sl=0;
+            else
+            { v_sl=form.amount[i].value;
+                v_zsl=parseFloat(v_zsl)+parseFloat(v_sl);
+            }
+            form.sumAmount.value=v_zsl;
+        }
+        else
+        {
+            form.sumAmount.value=form.amount.value;
+        }
+    }
+    function ClearNum()
+    { form.sumAmount.value="";  }
+</script>

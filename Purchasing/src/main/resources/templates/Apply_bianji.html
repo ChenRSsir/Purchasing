@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+<HTML lang="en" xmlns:th="http://www.thymeleaf.org">
+	<HEAD>
+		<TITLE>编辑合同申请</TITLE>
+		<META http-equiv=Content-Language content=zh-cn>
+		<META http-equiv=Content-Type content="text/html; charset=utf-8">
+		<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+		<META content=FrontPage.Editor.Document name=ProgId>
+		<LINK href="../contractmanager/js/style.css" rel=stylesheet>
+		<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+		<SCRIPT language=JavaScript src=""></SCRIPT>
+
+		<SCRIPT language=javascript>
+		function queding()
+		{
+			window.document.location = "Apply_queren.htm";
+		}
+
+		function baopi()
+		{
+			if(confirm("您确定信息正确并报批吗？")){
+				var myform=$("#myForm").serialize();
+                $.ajax({
+					url:"/contractPreparationApplication",
+					type:"post",
+					data:myform,
+					success:function (data) {
+						if(data=="true"){
+							alert("报批成功！");
+							location.href="/contractmanager/jieshilist.html";
+						}else {
+							alert("报批失败！");
+							location.href="/contractmanager/jieshilist.html";
+						}
+					}
+				});
+			//window.document.location = "jieshilist.html";
+			}
+		}
+
+</SCRIPT>
+	</HEAD>
+	<BODY>
+		<CENTER>
+			<FORM id="myForm" name=form action="" method=post>
+				<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0
+					width="100%" bgColor=#336699 borderColorLight=#006699 border=0>
+					<TBODY>
+						<TR>
+							<TD>
+								<TABLE cellSpacing=1 cellPadding=3 width="100%" border=1 bgcolor="#f0ffff">
+									<TBODY>
+										<TR bgColor=#ffffff>
+											<TD align=middle width="100%" bgColor=#ffffff colSpan=20
+												height=22>
+												<B>
+													<H2>
+														<FONT color=#0070c0>编辑合同申请 
+												</B>
+											<IMG alt=帮助 src="../contractmanager/img/help_a.gif" border=0 />
+												</FONT>
+												</H2>
+											</TD>
+										</TR>
+										<TR class=t1><TD width="20%">
+												询价书名称：
+											</TD>
+											<TD class=t2 width="30%" th:text="${enquire.getEnquireName()}">
+
+											</TD>
+											<!--<td>合同编号：</td>
+  <td colspan=2>W20100040</td>
+ </tr>-->
+											<TD width="20%">
+												报价份数：
+											</TD>
+											<TD class=t2 width="30%">
+												1
+											</TD>
+										</TR>
+										<TR class=t1>
+											<TD width="20%">
+												最高报价（元）：
+											</TD>
+											<TD class=t2 width="30%" th:text="${quote.getOverallPrice()}">
+
+											</TD>
+											<TD width="20%">
+												最低报价（元）：
+											</TD>
+											<TD class=t2 width="30%" th:text="${quote.getOverallPrice()}">
+												5001
+											</TD>
+											<input type="hidden" name="statQuote" value="1">
+											<input type="hidden" name="topQuote" th:value="${quote.getOverallPrice()}">
+											<input type="hidden" name="lowQuote" th:value="${quote.getOverallPrice()}">
+										    <input type="hidden" name="oid" th:value="${quoteDetail.getOrderId()}">
+										</TR>
+									</TBODY>
+								</TABLE>
+							</TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+
+				<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0
+					width="100%"  border=0 bgcolor="#f0ffff">
+					<TBODY>
+						<TR>
+							<TD>
+								<TABLE cellSpacing=1 cellPadding=3 width="100%" border=1 bgcolor="#f0ffff">
+									<TBODY>
+										<TR class=T1>
+											<TD noWrap align=middle colSpan=9>
+												物资
+												<span th:text="${quoteDetail.getMaterialName()}"></span>
+												<span th:text="${quoteDetail.getMaterialCode()}"></span>
+												<span th:text="${quoteDetail.getAmount()}"></span>
+												<span th:text="个"></span>
+												<BR>
+											</TD>
+										</TR>
+										<TR class=t1>
+											<TD noWrap align=middle width="20%">
+												供应商
+											</TD>
+											<TD noWrap align=middle>
+												数量
+											</TD>
+											<TD noWrap align=middle >
+												单价
+												<BR>
+												（元/含税）
+											</TD>
+											<TD noWrap align=middle >
+												运杂费
+												<BR>
+												（元）
+											</TD>
+											<TD noWrap align=middle >
+												其它费用
+												<BR>
+												（元）
+											</TD>
+											<TD noWrap align=middle>
+												总计
+												<BR>
+												（元）
+											</TD>
+											<TD noWrap align=middle width="12%">
+												计划开始
+												<BR>
+												交货期
+											</TD>
+											<TD noWrap align=middle>
+												开始
+												<BR>
+												交货期
+											</TD>
+											<TD noWrap align=middle>
+												结束
+												<BR>
+												交货期
+											</TD>
+										</TR>
+										<TR class=t2>
+											<TD width="20%" th:text="${quote.getQuoCompany()}">
+												供应商1
+												<BR>
+											</TD>
+											<TD align=right th:text="${quote.getSumAmount()}">
+												999
+												<BR>
+											</TD>
+											<TD align=right th:text="${quoteDetail.getUnitPrice()}">
+												5
+												<BR>
+											</TD>
+											<TD align=right th:text="${quoteDetail.getMixPrice()}">
+												5
+												<BR>
+											</TD>
+											<TD align=right th:text="${quoteDetail.getOtherPrice()}">
+												1
+												<BR>
+											</TD>
+											<TD align=right th:text="${quoteDetail.getTotalPrice()}">
+												5001
+												<BR>
+											</TD>
+											<TD align=right th:text="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">
+												2010/01/08
+											</TD>
+											<TD th:text="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">
+												2010/01/08
+												<BR>
+											</TD>
+											<TD th:text="${#dates.format(quoteDetail.getEndDate(),'yyyy-MM-dd')}">
+												2010/02/25
+												<BR>
+											</TD>
+										</TR>
+										<TR class=t1>
+											<TD align=middle>
+												总金额（元）
+											</TD>
+											<TD colSpan=9>
+												<INPUT readOnly size=10 th:value="${quoteDetail.getTotalPrice()}" name="allSumPrice">
+											</TD>
+										</TR>
+										<TR class=t1>
+											<TD align=middle>
+												备注
+											</TD>
+											<TD colSpan=9>
+												<INPUT size=80 name="remark">
+											</TD>
+										</TR>
+
+
+									</TBODY>
+								</TABLE>
+							</TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+				
+				<CENTER>
+				
+					<BR>
+					<INPUT onclick="queding();" type=button value=确定>
+					<INPUT onclick="baopi();" type=button value=保存并报批>
+					<INPUT onclick=form.reset() type=button value=清除>
+					<INPUT onclick=" javascript:history.back()" type=button value=取消>
+			</FORM>
+		</CENTER>
+
+	</BODY>
+</HTML>
