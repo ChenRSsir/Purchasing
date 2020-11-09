@@ -10,4 +10,12 @@ public interface SupplierService {
      * @return
      */
     public Supplier findSupplierById(Integer sid);
+
+
+    /**
+     * 通过用户id查询供应商
+     * @param userId
+     * @return
+     */
+    public Supplier findSupplierByUserId(Integer userId);
 }

@@ -35,7 +35,6 @@ public class ShiroConfig {
         filterMap.put("/*","authc");
         //不拦截的资源 如：登录操作
         filterMap.put("/loginUser","anon");
-
         //拦截后跳转的页面
         shiroFilterFactoryBean.setLoginUrl("/");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);

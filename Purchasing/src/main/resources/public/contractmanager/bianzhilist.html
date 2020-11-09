@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<!-- saved from url=(0061)http://169.254.158.100/zzdl/ContApply/Apply_list.asp?p_type=3 -->
+<HTML>
+<HEAD><TITLE>合同申请一览表</TITLE>
+	<link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+	<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+	<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+	<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	$(function () {
+		$("#dg").datagrid({
+			url:"/toPrepareTheContract",
+			pagination:'true',
+			rownumbers:'true',
+			selectOnCheck:'true',
+			singleSelect:'true',
+			checkOnSelect:'true',
+			pageList:[2,4,6,8,10],
+			columns:[[
+				{field:'',title:'',width:120,checkbox:true,align:'center'},
+				{field:'contAppNum',title:'合同申请编码',width:300,align:'center'},
+				{field:'leadDate',title:'审批时间',width:300,align:'center'},
+				{field:'allSumPrice',title:'总金额',width:300,align:'center'},
+				{field:'everconfirmed',title:'是否确定',width:300,align:'center'},
+				{field:'Whetherthearchive',title:'是否归档',width:300,align:'center'},
+				{field:'imId',title:'对照id',hidden:true},
+				{field:'qid',title:'报价id',hidden:true}
+			]]
+		});
+	});
+
+
+function dakai()
+	{
+		var rows= $("#dg").datagrid("getSelections");
+		if(rows.length==null || rows.length==""){
+			alert("请选择一条数据！");
+		}else{
+			window.document.location="/financialApprovalPage?qid="+rows[0].qid+"&imId="+rows[0].imId+"&variable=1";
+		}
+	}
+function addContract() {
+	var rows= $("#dg").datagrid("getSelections");
+	if(rows.length==null || rows.length==""){
+		alert("请选择一条数据！");
+	}else{
+		window.document.location="/showContract?qid="+rows[0].qid+"&imId="+rows[0].imId;
+	}
+}	
+
+</script>
+
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId><LINK 
+href="js/style.css" rel=stylesheet>
+
+</HEAD>
+<BODY>
+<CENTER>
+<FORM name=form action=Apply_list_do.asp method=post>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor=#336699 borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR bgColor=#ffffff>
+          <TD align=middle width="100%" bgColor=#ffffff colSpan=20 
+            height=22><B>
+            <H2><FONT color=#0070c0>合同申请一览表</B> <IMG alt=帮助 
+            src="img/help_a.gif" border=0> </FONT></H2></TD></TR>
+			<TR>
+          <TD align=middle width="100%" bgColor=#ffffff colSpan=9 
+            height=22>
+			<table>
+			<tr>
+			 <td>
+			 询价书名称:<input type="text"/>
+			 </td>
+			 <td>
+			 状态:
+			 <select>
+			 <option>全部</option>
+			<option>未确定</option>
+			<option>待审</option>
+			<option>驳回</option>
+			<option>废弃</option>
+			<option>通过</option>
+			 </select>
+			 </td>
+			 <td>
+			 <input type="button" value="查询"/>
+			 </td>
+			</tr>
+			</table>
+			</TD></TR>
+            <tr>
+				<td>
+					<table id="dg"></table>
+				</td>
+			</tr>
+
+			</TBODY></TABLE></TD></TR></TBODY></TABLE>
+
+
+	<INPUT type=hidden name=p_type>
+	<INPUT type=hidden value=3 name=p_lx>
+
+
+<P align=center><input type="button" value="打开" onclick="dakai();" />&nbsp;
+	<input type="button" value="编制合同" onclick="addContract()" />&nbsp;
+</P></FORM></CENTER></BODY></HTML>

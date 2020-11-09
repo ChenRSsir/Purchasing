@@ -1,6 +1,7 @@
 package com.turing.serviceImpl;
 
 import com.turing.dao.IdMappingMapper;
+import com.turing.entity.EasyUIDataGrid;
 import com.turing.entity.IdMapping;
 import com.turing.entity.IdMappingExample;
 import com.turing.service.IdMappingService;
@@ -49,5 +50,15 @@ public class IdMappingServiceImpl implements IdMappingService {
     @Override
     public int updateIdMapping(IdMapping idMapping) {
         return idMappingMapper.updateByPrimaryKeySelective(idMapping);
+    }
+
+    @Override
+    public EasyUIDataGrid findContractApplyByUnNull(Integer cusPage,Integer pageSize) {
+        List<IdMapping> idMappingList = idMappingMapper.findContractApply((cusPage-1)*pageSize,pageSize);
+        int total = idMappingMapper.findContractApplyTotal();
+        EasyUIDataGrid easyUIDataGrid=new EasyUIDataGrid();
+        easyUIDataGrid.setRows(idMappingList);
+        easyUIDataGrid.setTotal(total);
+        return easyUIDataGrid;
     }
 }

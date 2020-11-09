@@ -22,6 +22,40 @@
     <result column="LEAD_OPINION" jdbcType="VARCHAR" property="leadOpinion" />
     <result column="LEAD_DATE" jdbcType="TIMESTAMP" property="leadDate" />
   </resultMap>
+
+  <resultMap id="ContractApplyIdMapping" type="com.turing.entity.ContractApply">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="CONT_APP_NUM" jdbcType="VARCHAR" property="contAppNum" />
+    <result column="STAT_QUOTE" jdbcType="VARCHAR" property="statQuote" />
+    <result column="TOP_QUOTE" jdbcType="VARCHAR" property="topQuote" />
+    <result column="LOW_QUOTE" jdbcType="VARCHAR" property="lowQuote" />
+    <result column="ALL_SUM_PRICE" jdbcType="DECIMAL" property="allSumPrice" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="AUTHOR_ID" jdbcType="VARCHAR" property="authorId" />
+    <result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+    <result column="PLANER_ID" jdbcType="VARCHAR" property="planerId" />
+    <result column="PLANER" jdbcType="VARCHAR" property="planer" />
+    <result column="PLAN_AGREE" jdbcType="VARCHAR" property="planAgree" />
+    <result column="PLAN_OPINION" jdbcType="VARCHAR" property="planOpinion" />
+    <result column="PLAN_DATE" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="LEADER_ID" jdbcType="VARCHAR" property="leaderId" />
+    <result column="LEADER" jdbcType="VARCHAR" property="leader" />
+    <result column="LEAD_AGREE" jdbcType="VARCHAR" property="leadAgree" />
+    <result column="LEAD_OPINION" jdbcType="VARCHAR" property="leadOpinion" />
+    <result column="LEAD_DATE" jdbcType="TIMESTAMP" property="leadDate" />
+
+    <association property="idMapping" javaType="com.turing.entity.IdMapping">
+      <id column="imId" jdbcType="BIGINT" property="id" />
+      <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+      <result column="STOCK_ID" jdbcType="BIGINT" property="stockId" />
+      <result column="ENQUIRE_ID" jdbcType="BIGINT" property="enquireId" />
+      <result column="CONT_APP_ID" jdbcType="BIGINT" property="contAppId" />
+      <result column="QUOTE_ID" jdbcType="BIGINT" property="quoteId" />
+      <result column="CONT_ID" jdbcType="BIGINT" property="contId" />
+      <result column="STATUS" jdbcType="VARCHAR" property="status" />
+
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -115,7 +149,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.turing.entity.ContractApply">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.turing.entity.ContractApply">
     insert into contract_apply (ID, CONT_APP_NUM, STAT_QUOTE, 
       TOP_QUOTE, LOW_QUOTE, ALL_SUM_PRICE, 
       REMARK, AUTHOR_ID, AUTHOR, 
@@ -430,4 +464,22 @@
       LEAD_DATE = #{leadDate,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+<!--最新的一条数据，用于获取编码-->
+  <select id="findForInsert" resultMap="BaseResultMap">
+SELECT * FROM contract_apply ORDER BY CONT_APP_NUM DESC LIMIT 0,1;
+  </select>
+
+  <select id="findContractApplys" resultMap="ContractApplyIdMapping">
+SELECT *,i.ID AS imId FROM
+contract_apply c,id_mapping i
+WHERE c.ID=i.CONT_APP_ID
+AND i.`STATUS`='C001-150'
+LIMIT #{cusPage},#{pageSize};
+  </select>
+  <select id="findContractApplysTotal" resultType="java.lang.Integer">
+    SELECT count(*) imId FROM
+contract_apply c,id_mapping i
+WHERE c.ID=i.CONT_APP_ID
+AND i.`STATUS`='C001-150'
+  </select>
 </mapper>

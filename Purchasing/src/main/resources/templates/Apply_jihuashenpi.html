@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<!-- saved from url=(0086)http://169.254.158.100/zzdl/ContApply/Apply_Exam.asp?p_Applyno=10002010182564&p_type=4 -->
+<HTML lang="en" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+
+<HEAD><TITLE>计划部长审批合同申请</TITLE>
+<SCRIPT language=JAVASCRIPT>
+ function queding()
+{
+if(	confirm('您确认信息正确并通过吗？')){
+  var myfrom= $("#myForm").serialize();
+  $.ajax({
+    url:"/planApprove",
+    type:"post",
+    data:myfrom,
+    success:function (data) {
+      if(data=="true"){
+        alert("审核完成！");
+        location.href="/contractmanager/daishenjihuahetong.html";
+      }
+    }
+  });
+}
+}
+</SCRIPT>
+
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId>
+  <LINK href="../contractmanager/js/style.css" rel=stylesheet></HEAD>
+<BODY>
+<CENTER>
+<CENTER>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor=#336699 borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=1 bgcolor="#f0ffff">
+        <TBODY>
+        <TR bgColor=#ffffff>
+          <TD align=middle width="100%" bgColor=#ffffff colSpan=20 
+            height=22><B>
+            <H2><FONT color=#0070c0>合同申请审批</B><IMG alt=帮助 src="../contractmanager/img/help_a.gif" border=0></A> </FONT></H2></TD></TR>
+        <TR class=t1>
+          <TD width="20%">询价书名称：</TD>
+          <TD class=t2 width="30%" th:text="${enquire.getEnquireName()}"></TD>
+          <TD width="20%">报价份数：</TD>
+          <TD class=t2 width="30%">1</TD></TR>
+        <TR class=t1>
+          <TD width="20%">最高报价（元）：</TD>
+          <TD class=t2 width="30%" th:text="${quoteDetail.getTotalPrice()}">5001</TD>
+          <TD width="20%">最低报价（元）：</TD>
+          <TD class=t2 width="30%" th:text="${quoteDetail.getTotalPrice()}">5001</TD></TR>
+        </TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor=#336699 borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=1 bgcolor="#f0ffff">
+        <TBODY>
+        <TR class=t1>
+          <TD align=middle>供应商名称</TD>
+          <TD align=middle>报价时间</TD>
+          <TD align=middle>报价总金额（元）</TD>
+          <TD align=middle>报价打分</TD>
+          <TD align=middle>综合评分</TD></TR>
+        <TR class=t2>
+          <TD th:text="${quote.getQuoCompany()}"><BR></TD>
+          <TD th:text="${#dates.format(quote.getQueDate(),'yyyy-MM-dd')}">2010/01/08 17:07:30<BR></TD>
+          <TD th:text="${quote.getOverallPrice()}">5001<BR></TD>
+          <TD><BR></TD>
+          <TD><BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor=#336699 borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=1 bgcolor="#f0ffff">
+        <TBODY>
+        <TR class=T1>
+          <TD noWrap align=middle colSpan=9>物资<B><FONT color=red>1
+            &nbsp;</B></FONT>【<font style="color: blue" th:text="${order.getMaterialName()}"></font>】
+            【<font style="color: blue" th:text="${order.getMaterialCode()}"></font>】
+            【<font style="color: blue" th:text="${order.getAmount()}"></font>】个
+
+          </TD></TR>
+        <TR class=t1>
+          <TD noWrap align=middle width="20%">供应商</TD>
+          <TD noWrap align=middle>数量</TD>
+          <TD noWrap align=middle>单价<BR>（元/含税）</TD>
+          <TD noWrap align=middle>运杂费<BR>（元）</TD>
+          <TD noWrap align=middle>其它费用<BR>（元）</TD>
+          <TD noWrap align=middle>总计<BR>（元）</TD>
+          <TD noWrap align=middle width="12%">计划开始<BR>交货期</TD>
+          <TD noWrap align=middle>开始<BR>交货期</TD>
+          <TD noWrap align=middle>结束<BR>交货期</TD></TR>
+        <TR class=t2>
+          <TD width="20%" th:text="${quote.getQuoCompany()}"><BR></TD>
+          <TD align=right th:text="${quote.getSumAmount()}">999<BR></TD>
+          <TD align=right th:text="${quoteDetail.getUnitPrice()}">5<BR></TD>
+          <TD align=right th:text="${quoteDetail.getMixPrice()}">5<BR></TD>
+          <TD align=right th:text="${quoteDetail.getOtherPrice()}">1<BR></TD>
+          <TD align=right th:text="${quoteDetail.getTotalPrice()}">5001<BR></TD>
+          <TD align=right th:text="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">2010/01/08</TD>
+          <TD align=middle th:text="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">2010/01/08<BR></TD>
+          <TD align=middle th:text="${#dates.format(quoteDetail.getEndDate(),'yyyy-MM-dd')}">2010/01/08<BR></TD></TR>
+        <TR class=t1>
+          <TD noWrap align=middle><B>需求计划数量<B></B></B></TD>
+          <TD align=right colSpan=4 th:text="${order.getAmount()}">999<BR></TD>
+          <TD noWrap align=middle><B>订货数量<B></B></B></TD>
+          <TD align=right colSpan=4 th:text="${quoteDetail.getAmount()}">999<BR></TD></TR>
+        <TR class=t1>
+          <TD align=middle>总金额（元）</TD>
+          <TD colSpan=8 th:text="${quoteDetail.getAmount()}">5001<BR></TD></TR>
+        <TR class=t1>
+          <TD align=middle>合同申请备注</TD>
+          <TD colSpan=8 th:text="${contractApply.getRemark()}">afrawdasdasd<BR></TD>
+        </TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor="#f0ffff" borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 bgColor="#f0ffff" cellPadding=3 width="100%" border=1>
+        <TBODY>
+        <TR class=t1>
+          <TD width="20%">财务部长是否同意</TD>
+          <TD class=t2 th:switch="${contractApply.getPlanAgree()}">
+            <span th:case="S002-0">不同意</span>
+            <span th:case="S002-1">同意</span>
+          </TD></TR>
+        <TR class=t1>
+          <TD width="20%" rowSpan=2>财务部长审核意见</TD>
+          <TD class=t2 th:text="${contractApply.getPlanOpinion()}">好<BR></TD></TR>
+        <TR class=t2>
+          <TD align=right>审核人：<span th:text="${contractApply.getPlaner()}"></span>
+            审核时间 <span th:text="${#dates.format(contractApply.getPlanDate(),'yyyy-MM-dd HH:mm:ss')}"></span>
+            <BR></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></CENTER><TD
+align="left"><FONT 
+color=red>说明：系统中供应商名称用蓝色表示为合格供方，绿色表示为许可供方，红色表示为其他供方；数量为红色表示报价数量与询价数量不相等。</FONT></TD> 
+
+<FORM name=form id="myForm" action=Apply_Exam_Save.asp method=post>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgcolor="#f0ffff" borderColorLight=#006699 border=1>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR class=t1>
+          <TD width="20%">是否同意</TD>
+          <TD><INPUT type=radio CHECKED value=1 name=p_agree>同意 <INPUT 
+            type=radio value=0 name=p_agree>驳回<INPUT 
+            type=radio value=0 name=p_agree>待审<INPUT 
+            type=radio value=0 name=p_agree>废弃</TD></TR>
+        <TR class=t1>
+          <TD width="20%">审批意见</TD>
+          <TD><TEXTAREA name=leadOpinion rows=3 cols=60>  </TEXTAREA>
+      </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ffffff 
+borderColorLight=#ffffff border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD align=right>审批人 <INPUT 
+            style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-BOTTOM-COLOR: black; BORDER-LEFT: 0px; WIDTH: 80px" 
+            readOnly maxLength=20 th:value="${session.emp.getEmpName()}" name=leader>&nbsp; &nbsp; 审批时间 <INPUT
+            style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-BOTTOM-COLOR: black; BORDER-LEFT: 0px; WIDTH: 80px" 
+            readOnly maxLength=20 th:value="${#dates.format(new java.util.Date().getTime(),'yyyy-MM-dd')}" name=leaddate>
+      </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+  <INPUT type=hidden th:value="${session.emp.getId()}" name=leaderId>
+  <INPUT type=hidden th:value="${contractApply.getId()}" name=id>
+  <INPUT type=hidden th:value="${idMapping.getId()}" name=imId>
+
+<BR><INPUT onclick="queding();" type=button value=确定> <INPUT onclick=history.back() type=button value=返回> 
+</FORM></CENTER></BODY></HTML>

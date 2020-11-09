@@ -1,12 +1,55 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>²é¿´ºÏÍ¬</TITLE>
+<!DOCTYPE HTML>
+<HTML><HEAD><TITLE>æŸ¥çœ‹åˆåŒ</TITLE>
 <META http-equiv=Content-Language content=zh-cn>
-<META http-equiv=Content-Type content="text/html; charset=gb2312"><LINK 
+<META http-equiv=Content-Type content="text/html; charset=utf-8"><LINK
 href="css/style.css" rel=stylesheet>
-<SCRIPT language=JavaScript 
-src="css/pub_Calendar.js"></SCRIPT>
 
-<META content="MSHTML 6.00.2900.5626" name=GENERATOR></HEAD>
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+  <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+  <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+
+  <script type="text/javascript">
+    $(function () {
+      $("#dg").datagrid({
+        url:"/findContracts",
+        pagination:'true',
+        rownumbers:'true',
+        selectOnCheck:'true',
+        singleSelect:'true',
+        checkOnSelect:'true',
+        pageList:[2,4,6,8,10],
+        columns:[[
+          {field:'',title:'',width:120,checkbox:true,align:'center'},
+          {field:'contNum',title:'åˆåŒç¼–ç ',width:400,align:'center'},
+          {field:'contDate',title:'ç­¾è®¢æ—¶é—´',width:400,align:'center'},
+          {field:'contPrice',title:'æ€»é‡‘é¢',width:330,align:'center'},
+          {field:'status',title:'åˆåŒçŠ¶æ€',width:330,align:'center',formatter:function (value,row,index) {
+              if(value=="C001-160"){
+                return "æœªå½’æ¡£";
+              }else{
+                return "å·²å‚¨å­˜";
+              }
+            }},
+          {field:'imId',title:'å¯¹ç…§id',hidden:true},
+          {field:'qid',title:'æŠ¥ä»·id',hidden:true},
+          {field:'cid',title:'åˆåŒid',hidden:true}
+        ]]
+      });
+    });
+
+    function dakai() {
+      var rows = $("#dg").datagrid("getSelections");
+      if (rows.length == null || rows.length == "") {
+        alert("è¯·é€‰æ‹©ä¸€æ¡æ•°æ®ï¼");
+      } else {
+        location.href = "/showContractDetail?cid=" + rows[0].cid;
+      }
+    }
+  </script>
+</HEAD>
 <BODY>
 <CENTER>
 <FORM name=form action=ProviderConsignment.asp method=post>
@@ -15,98 +58,45 @@ bgColor=#336699 borderColorLight=#006699 border=0>
   <TBODY>
   <TR>
     <TD>
-      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0 bgcolor="#f0ffff">
         <TBODY>
         <TR bgColor=#ffffff>
           <TD align=middle width="100%" bgColor=#ffffff colSpan=20 
             height=22><B>
-            <H2><FONT color=#0070c0>²é¿´ºÏÍ¬</B> <A 
-            onclick="window.open('../help/Help.asp?Value=²é¿´ºÏÍ¬','child','status=NO,scrollbars=yes,toolbar=no,menubar=no,location=no,left=200,top=100,width=700,height=400')" 
-            href="javascript:void(null)"><IMG alt=°ïÖú 
+            <H2><FONT color=#0070c0>æŸ¥çœ‹åˆåŒ</B> <A 
+            onclick="window.open('../help/Help.asp?Value=æŸ¥çœ‹åˆåŒ','child','status=NO,scrollbars=yes,toolbar=no,menubar=no,location=no,left=200,top=100,width=700,height=400')" 
+            href="javascript:void(null)"><IMG alt=å¸®åŠ© 
             src="ProviderConsignment.files/help_a.gif" border=0></A> 
           </FONT></H2></TD></TR>
         <TR>
           <TD align=middle width="100%" bgColor=#ffffff colSpan=10 
-            height=22>Îï×ÊÃû³Æ£º<INPUT name=STRCLASSCODE1> &nbsp;&nbsp; ºÏÍ¬ºÅ£º <INPUT 
-            size=17 name=strContCode1> Ìá½»Ê±¼ä£º<INPUT readOnly size=15 
+            height=22>ç‰©èµ„åç§°ï¼š<INPUT name=STRCLASSCODE1> &nbsp;&nbsp; åˆåŒå·ï¼š <INPUT 
+            size=17 name=strContCode1> æäº¤æ—¶é—´ï¼š<INPUT readOnly size=15 
             value=2009/11/08 name=p_date1><IMG style="CURSOR: hand" 
             onclick="fPopUpCalendarDlg(p_date1);return false" height=16 
-            alt=ÈÕÀú¶Ô»°¿ò src="ProviderConsignment.files/schedure_datetime.gif" 
-            width=16 align=absMiddle> &nbsp;ÖÁ&nbsp;<INPUT readOnly size=15 
+            alt=æ—¥å†å¯¹è¯æ¡† src="ProviderConsignment.files/schedure_datetime.gif" 
+            width=16 align=absMiddle> &nbsp;è‡³&nbsp;<INPUT readOnly size=15 
             value=2010/01/08 name=p_date2><IMG style="CURSOR: hand" 
             onclick="fPopUpCalendarDlg(p_date2);return false" height=16 
-            alt=ÈÕÀú¶Ô»°¿ò src="ProviderConsignment.files/schedure_datetime.gif" 
-            width=16 align=absMiddle> &nbsp;&nbsp;<INPUT onclick=submit_form_cx() type=button value="²é Ñ¯"> 
+            alt=æ—¥å†å¯¹è¯æ¡† src="ProviderConsignment.files/schedure_datetime.gif" 
+            width=16 align=absMiddle> &nbsp;&nbsp;<INPUT onclick=submit_form_cx() type=button value="æŸ¥ è¯¢"> 
           </TD></TR>
-        <TR>
-          <TD align=middle width="100%" bgColor=#ffffff colSpan=10 
-            height=22><FORM name="form1" action="" method="Post">
-            <CENTER><FONT color=#000064>¡ô&nbsp;</FONT><FONT color=#000064>Ê×Ò³ 
-            ÉÏÒ»Ò³</FONT>&nbsp;<FONT color=#000064>ÏÂÒ»Ò³ Î²Ò³</FONT><FONT 
-            color=#000064>&nbsp;¹² 4 ¸öºÏÍ¬ Ã¿Ò³10 ¸öºÏÍ¬</FONT><FONT 
-            color=#000064>&nbsp;Ò³´Î:<FONT color=blue>1</FONT>/1Ò³</FONT><FONT 
-            color=#000064>&nbsp;¡ô&nbsp;</FONT> </CENTER></TD></TR>
-        <TR class=t1>
-          <TD noWrap align=middle>ĞòºÅ</TD>
-          <TD noWrap align=middle>ºÏÍ¬ºÅ</TD>
-          <TD noWrap align=middle>ºÏÍ¬±êµÄ</TD>
-          <TD noWrap align=middle>ºÏÍ¬½ğ¶î</TD>
-          <TD noWrap align=middle>Ç©¶¨Ê±¼ä</TD>
-          </TR>
-        <TR class=t2>
-          <TD>1</TD>
-          <TD><A 
-            href="contract_view.htm">2010200540580090</A></TD>
-          <TD>wqteswgdsfdsdshfsdgd</TD>
-          <TD align=right>12531846</TD>
-          <TD>2010/01/05</TD>
-        <TR class=t2>
-          <TD>2</TD>
-          <TD><A 
-            href="contract_view.htm">2010200540580086</A></TD>
-          <TD>kljo</TD>
-          <TD align=right>51842</TD>
-          <TD>2010/01/05</TD>
-        <TR class=t2>
-          <TD>3</TD>
-          <TD><A 
-            href="contract_view.htm">20102005405800081</A></TD>
-          <TD>fdsf</TD>
-          <TD align=right>880000</TD>
-          <TD>2010/01/05</TD>
-         </TR>
+         <tr>
+           <td>
+                <table id="dg"></table>
+           </td>
+         </tr>
         <TR>
           <TD class=t2 colSpan=10><FONT 
-            color=red>´òÓ¡×´Ì¬×¢ÊÍ:</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;Îª±ãÓÚ¹©Ó¦ÉÌ²é¿´ºÏÍ¬ÊÇ·ñÒÑ´òÓ¡£¬µ±´òÓ¡Íêºó£¬µã»÷¡¾Î´´òÓ¡¡¿°´Å¥£¬¸Ä±ä´òÓ¡×´Ì¬¡£ 
-          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><INPUT type=hidden 
-name=p_type> </FORM><!INPUT onclick=submit_form(document.form,1) type=button value=´ò¿ª> <!input type=button value="Â¼Èë·¢»õĞÅÏ¢" onclick="submit_form(document.form,2)">
-<SCRIPT language=javascript>
-function updmark(contcode) 
-{ 
-	form.action="providermark.asp?strcontcode="+contcode+"";
-	form.submit();
-}
-function submit_form(theForm,i)
-{
-    var count=0;
-    for (var k = 0; k < theForm.length; k++)
-    if ((theForm[k].type == "radio") && (theForm[k].checked))
-    count++;
-    if (count==0)
-    {
-       alert("ÌáÊ¾ĞÅÏ¢£º\nÇëÑ¡ÔñºÏÍ¬¡£");
-       return;
-    }
-    window.document.location="contract_view.htm";
-    form.action="ProviderContract_do.asp";
-    document.form.p_type.value=i;
-    window.document.form.submit();
-    return true;
-}
-function submit_form_cx()
-{
-    form.action="ProviderConsignment.asp";
-    window.document.form.submit();
-}		
-</SCRIPT>
+            color=red>æ‰“å°çŠ¶æ€æ³¨é‡Š:</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;ä¸ºä¾¿äºä¾›åº”å•†æŸ¥çœ‹åˆåŒæ˜¯å¦å·²æ‰“å°ï¼Œå½“æ‰“å°å®Œåï¼Œç‚¹å‡»ã€æœªæ‰“å°ã€‘æŒ‰é’®ï¼Œæ”¹å˜æ‰“å°çŠ¶æ€ã€‚ 
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY>
+
+            <tr>
+              <td bgcolor="#f0ffff" align="center"><INPUT type=button onclick="dakai()" value=è¯¦æƒ…>&nbsp;
+                <INPUT onClick=" javascript:history.back()" type=button value=è¿”å›></td>
+            </tr>
+</TABLE>
+
+
+</FORM>
 </CENTER></BODY></HTML>

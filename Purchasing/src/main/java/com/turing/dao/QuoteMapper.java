@@ -1,5 +1,6 @@
 package com.turing.dao;
 
+import com.turing.entity.Enquire;
 import com.turing.entity.Quote;
 import com.turing.entity.QuoteExample;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,13 @@ public interface QuoteMapper {
     int updateByPrimaryKeySelective(Quote record);
 
     int updateByPrimaryKey(Quote record);
+
+     //获取最新的一条数据
+    Quote  findForInsert();
+
+    //报价揭示
+    List<Quote> findQuote(@Param("cusPage") Integer cusPage,@Param("pageSize") Integer pageSize);
+
+    //报价揭示条数
+    int findQuoteTotal();
 }

@@ -44,6 +44,10 @@ public class StockContorller {
     @Autowired
     private IdMappingService idMappingService;
 
+    //询价依赖
+    @Autowired
+    private  EnquireService enquireService;
+
     //拟定采购页面
     @RequestMapping("/protocolStock")
     public ModelAndView protocolStock(Integer oid) throws ParseException {
@@ -391,5 +395,27 @@ public class StockContorller {
         easyUIDataGrid1.setTotal(easyUIDataGrid.getTotal());
         easyUIDataGrid1.setRows(list);
         return easyUIDataGrid1;
+    }
+
+    //编制询价书预览
+    @RequestMapping("/InquiryStock")
+    public ModelAndView InquiryStock(Integer sid,Integer oid,HttpSession session) throws ParseException {
+        ModelAndView mv=new ModelAndView("/Enquire_bianzhi");
+        //获取采购信息
+        Stock stock = stockService.findStockById(sid);
+        //获取需求信息
+        Orders order = ordersService.findOrderById(oid);
+        //获取状态信息
+        IdMapping idMapping = idMappingService.findMdMappingByOid(oid);
+        //获取员工信息
+        Employee employee=(Employee)session.getAttribute("emp");
+        //获取编码
+        String number = enquireService.getEnquirePlanNumber();
+        mv.addObject("number",number);
+        mv.addObject("stock",stock);
+        mv.addObject("order",order);
+        mv.addObject("idMapping",idMapping);
+        mv.addObject("employee",employee);
+        return mv;
     }
 }

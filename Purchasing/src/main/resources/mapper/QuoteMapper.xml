@@ -113,7 +113,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.turing.entity.Quote">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.turing.entity.Quote">
     insert into quote (ID, QUOTE_NUM, ENQUIRE_ID, 
       SUPPLIER_ID, QUO_COMPANY, QUO_ADDRESS, 
       QUO_LINKMAN, QUO_PHONE, QUO_FAX, 
@@ -398,4 +398,23 @@
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--//获取最新的一条数据 findForInsert();-->
+  <select id="findForInsert" resultMap="BaseResultMap">
+      SELECT * FROM quote ORDER BY QUOTE_NUM DESC LIMIT 0,1;
+  </select>
+
+  <select id="findQuote" resultMap="BaseResultMap">
+    SELECT * FROM quote q,id_mapping i
+    WHERE q.ID=i.QUOTE_ID
+    AND i.`STATUS`='C001-100'
+    AND q.END_DATE &lt; NOW() LIMIT #{cusPage},#{pageSize};
+  </select>
+
+  <select id="findQuoteTotal" resultType="java.lang.Integer">
+    SELECT count(*) FROM quote q,id_mapping i
+    WHERE q.ID=i.QUOTE_ID
+    AND i.`STATUS`='C001-100'
+    AND q.END_DATE &lt; NOW();
+  </select>
 </mapper>

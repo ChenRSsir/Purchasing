@@ -255,4 +255,12 @@
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="findContractApply" resultMap="BaseResultMap">
+    SELECT * FROM id_mapping WHERE   CONT_APP_ID !=0 LIMIT #{cusPage},#{pageSize};
+  </select>
+
+  <select id="findContractApplyTotal" resultType="java.lang.Integer">
+    SELECT count(*) FROM id_mapping WHERE CONT_APP_ID !=0;
+  </select>
 </mapper>

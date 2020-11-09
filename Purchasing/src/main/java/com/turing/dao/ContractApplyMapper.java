@@ -28,4 +28,13 @@ public interface ContractApplyMapper {
     int updateByPrimaryKeySelective(ContractApply record);
 
     int updateByPrimaryKey(ContractApply record);
+
+    //获取最新的一条数据
+    ContractApply findForInsert();
+
+
+    //待编制合同申请
+    List<ContractApply> findContractApplys(@Param("cusPage") Integer cusPage,@Param("pageSize") Integer pageSize);
+    //数量
+    int findContractApplysTotal();
 }

@@ -125,9 +125,16 @@ public class OrdersServiceImpl implements OrdersService {
             return "100"+nowDate+00001;
         }else{
             //获取当前月份
-            Integer m = cal.get(Calendar.MONTH)+1;
+            String m = String.valueOf(cal.get(Calendar.MONTH) + 1);
+            if(cal.get(Calendar.MONTH) + 1<10){
+                m=String.valueOf("0"+cal.get(Calendar.MONTH) + 1);
+            }
+
             //获取当前日期
-            Integer d = cal.get(Calendar.DATE);
+            String d =String.valueOf(cal.get(Calendar.DATE));
+            if(cal.get(Calendar.DATE)<10){
+                d =String.valueOf("0"+cal.get(Calendar.DATE));
+            }
             //获取最后五位数
             num = "100"+year+m+d+num.substring(11);
             Long nums = Long.parseLong(num)+1;

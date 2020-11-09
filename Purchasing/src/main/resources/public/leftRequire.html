@@ -20,10 +20,19 @@
 				//console.log(data);
 				//遍历data创建一级菜单
 				$(data).each(function (index,menu) {
-					if(menu.id==1){//跟菜单
-						$("#myAccordion").accordion('add',{
-							title:menu.text,
-							id:"first"+menu.id
+					if(menu.id==1) {//跟菜单
+						$("#myAccordion").accordion('add', {
+							title: menu.text,
+							id: "first" + menu.id
+						});
+					}
+
+				});
+				$(data).each(function (index,menu){
+					if(menu.id!=1){
+						$("#myAccordion").accordion('add', {
+							title: menu.text,
+							id: "first" + menu.id
 						});
 						//在一级菜单下创建树形菜单
 						$("#first"+menu.id).html("<ul id='myTree"+menu.id+"'></ul>");
@@ -34,14 +43,13 @@
 							onClick:function (node) {
 								//判断节点的属性或url为空
 								if(node.attributes==null|| node.attributes.url==null){
-                                       return;
+									return;
 								}else{
 									window.parent.main.location=node.attributes.url;
 								}
 
 							}
 						});
-
 					}
 				});
 			}

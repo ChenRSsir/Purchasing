@@ -15,6 +15,27 @@
     <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+  <resultMap id="EnquireIdMapping" type="com.turing.entity.Enquire">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="ENQUIRE_NUM" jdbcType="VARCHAR" property="enquireNum" />
+    <result column="ENQUIRE_NAME" jdbcType="VARCHAR" property="enquireName" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="ZIP" jdbcType="VARCHAR" property="zip" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+     <association property="idMapping" javaType="com.turing.entity.IdMapping">
+       <id column="imId" jdbcType="BIGINT" property="id" />
+       <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+       <result column="STOCK_ID" jdbcType="BIGINT" property="stockId" />
+       <result column="ENQUIRE_ID" jdbcType="BIGINT" property="enquireId" />
+       <result column="STATUS" jdbcType="VARCHAR" property="status" />
+     </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -107,7 +128,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.turing.entity.Enquire">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.turing.entity.Enquire">
     insert into enquire (ID, ENQUIRE_NUM, ENQUIRE_NAME, 
       COMPANY, LINKMAN, ADDRESS, 
       PHONE, FAX, ZIP, EMAIL, 
@@ -318,4 +339,46 @@
       REMARK = #{remark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--//获取最新的一条数据 findForInsert();-->
+  <select id="findForInsert" resultMap="BaseResultMap">
+      select * from enquire order by ENQUIRE_NUM desc limit 0,1;
+  </select>
+
+  <!--询价书集合-->
+  <select id="findEnquireList" resultMap="EnquireIdMapping">
+    SELECT *,i.ID AS imId FROM
+    enquire e,id_mapping i
+    WHERE e.ID=i.ENQUIRE_ID LIMIT #{cusPage},#{pageSize};
+  </select>
+ <!--询价书总数-->
+  <select id="findEnquireListTotal" resultType="java.lang.Integer">
+    SELECT count(*) FROM
+    enquire e,id_mapping i
+    WHERE e.ID=i.ENQUIRE_ID;
+  </select>
+
+<select id="ouotationForinquiry" resultMap="EnquireIdMapping">
+  SELECT *,i.ID AS imId FROM
+    enquire e,id_mapping i
+    WHERE e.ID=i.ENQUIRE_ID
+     AND i.`STATUS`='C001-80'
+     AND e.END_DATE &gt; NOW() LIMIT #{cusPage},#{pageSize};
+</select>
+
+  <select id="ouotationForinquiryTatol" resultType="java.lang.Integer">
+  SELECT count(*) FROM
+    enquire e,id_mapping i
+    WHERE e.ID=i.ENQUIRE_ID
+     AND i.`STATUS`='C001-80'
+     AND e.END_DATE &gt; NOW();
+</select>
+
+  <select id="unOuotationForinquiry" resultMap="EnquireIdMapping">
+  SELECT *,i.ID AS imId FROM
+    enquire e,id_mapping i
+    WHERE e.ID=i.ENQUIRE_ID
+     AND i.`STATUS`='C001-80'
+     AND e.END_DATE &lt; NOW();
+</select>
 </mapper>

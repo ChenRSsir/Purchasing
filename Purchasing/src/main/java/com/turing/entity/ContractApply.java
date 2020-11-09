@@ -43,6 +43,18 @@ public class ContractApply implements Serializable {
 
     private Date leadDate;
 
+
+    //一对一
+    private IdMapping idMapping;
+
+    public IdMapping getIdMapping() {
+        return idMapping;
+    }
+
+    public void setIdMapping(IdMapping idMapping) {
+        this.idMapping = idMapping;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

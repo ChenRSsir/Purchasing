@@ -28,6 +28,46 @@
     <result column="OUT_DAY" jdbcType="VARCHAR" property="outDay" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
   </resultMap>
+
+  <resultMap id="ContractIdMapping" type="com.turing.entity.Contract">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="CONT_NUM" jdbcType="VARCHAR" property="contNum" />
+    <result column="BUYER" jdbcType="VARCHAR" property="buyer" />
+    <result column="SELLER" jdbcType="VARCHAR" property="seller" />
+    <result column="SUPPLIER_NUM" jdbcType="VARCHAR" property="supplierNum" />
+    <result column="CONT_DATE" jdbcType="TIMESTAMP" property="contDate" />
+    <result column="CONT_TYPE" jdbcType="VARCHAR" property="contType" />
+    <result column="STOCK_TYPE" jdbcType="VARCHAR" property="stockType" />
+    <result column="CONT_ITEM" jdbcType="VARCHAR" property="contItem" />
+    <result column="MONEY" jdbcType="VARCHAR" property="money" />
+    <result column="TAX_RATE" jdbcType="VARCHAR" property="taxRate" />
+    <result column="WRAP_BACK" jdbcType="VARCHAR" property="wrapBack" />
+    <result column="VERIFY_STAND" jdbcType="VARCHAR" property="verifyStand" />
+    <result column="MODE" jdbcType="VARCHAR" property="mode" />
+    <result column="PAY_COND" jdbcType="VARCHAR" property="payCond" />
+    <result column="VERIFY_DATE" jdbcType="TIMESTAMP" property="verifyDate" />
+    <result column="QUALITY_STAND" jdbcType="VARCHAR" property="qualityStand" />
+    <result column="STANDARD_NO" jdbcType="VARCHAR" property="standardNo" />
+    <result column="PLACE" jdbcType="VARCHAR" property="place" />
+    <result column="CONT_PRICE" jdbcType="DECIMAL" property="contPrice" />
+    <result column="TRANSPORT" jdbcType="VARCHAR" property="transport" />
+    <result column="PAY_WAY" jdbcType="VARCHAR" property="payWay" />
+    <result column="OUT_PERM" jdbcType="VARCHAR" property="outPerm" />
+    <result column="OUT_DAY" jdbcType="VARCHAR" property="outDay" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+
+    <association property="idMapping" javaType="com.turing.entity.IdMapping">
+      <id column="imId" jdbcType="BIGINT" property="id" />
+      <result column="ORDER_ID" jdbcType="BIGINT" property="orderId" />
+      <result column="STOCK_ID" jdbcType="BIGINT" property="stockId" />
+      <result column="ENQUIRE_ID" jdbcType="BIGINT" property="enquireId" />
+      <result column="CONT_APP_ID" jdbcType="BIGINT" property="contAppId" />
+      <result column="QUOTE_ID" jdbcType="BIGINT" property="quoteId" />
+      <result column="CONT_ID" jdbcType="BIGINT" property="contId" />
+      <result column="STATUS" jdbcType="VARCHAR" property="status" />
+
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -121,7 +161,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.turing.entity.Contract">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.turing.entity.Contract">
     insert into contract (ID, CONT_NUM, BUYER, 
       SELLER, SUPPLIER_NUM, CONT_DATE, 
       CONT_TYPE, STOCK_TYPE, CONT_ITEM, 
@@ -524,4 +564,23 @@
       REMARK = #{remark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--最新一条数据-->
+  <select id="findForInsert" resultMap="BaseResultMap">
+SELECT * FROM contract ORDER BY cont_num DESC LIMIT 0,1;
+  </select>
+
+  <select id="findContractList" resultMap="ContractIdMapping">
+SELECT *,i.ID AS imId FROM
+contract c,id_mapping i WHERE
+c.ID=i.CONT_ID LIMIT #{cusPage},#{pageSize};
+
+  </select>
+
+  <select id="findContractListTotal" resultType="java.lang.Integer">
+SELECT count(*) FROM
+contract c,id_mapping i WHERE
+c.ID=i.CONT_ID;
+
+  </select>
 </mapper>

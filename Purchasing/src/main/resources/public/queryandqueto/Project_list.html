@@ -4,7 +4,7 @@
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
 <META content="MSHTML 6.00.2900.5626" name=GENERATOR>
 <META content=FrontPage.Editor.Document name=ProgId><LINK
-href="js/style.css" rel=stylesheet>
+          href="../queryandqueto/js/style.css" rel=stylesheet>
   <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
   <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
   <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
@@ -126,7 +126,7 @@ href="js/style.css" rel=stylesheet>
       }else if(rows.length>1){
         alert("一次只能选择一条数据！");
       }else{
-        location.href="/findStockDetails?sid="+rows[0].sid+"&oid="+rows[0].oid+"&imId="+rows[0].imId;
+        location.href="/InquiryStock?sid="+rows[0].sid+"&oid="+rows[0].oid;
       }
 	}
 

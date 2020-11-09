@@ -1,228 +1,42 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 	<HEAD>
-		<TITLE>ºÏÍ¬ÉêÇëÒ»ÀÀ±í</TITLE>
-		<SCRIPT language=JAVASCRIPT> 
-function chck()
-{  var  count=0;
-   for (var i=0;i<form.length;i++)
-   if ((form[i].type == "radio") && (form[i].checked))
-   count++; 
-   if (count==0)
-      { return false;  }
-   else
-      { return true;   }
-}
- 
-function Add(SourceList,TargetList)
-	{
-	var nIndex = SourceList.selectedIndex;
- 	var nCount = 0;  
-	if (nIndex == -1)
-	{
-		// Process continue only if at least one item selected
-		//alert("ÇëÏÈÑ¡ÔñÒ»Ïî!");
-		return;
-	}
-	for (i=0;i<SourceList.length;i++)
-  {
-     if (SourceList.options(i).selected==true)
-     {    
-         if (inSouceList(SourceList.options(i).value,TargetList)==false)
-         {
-          	var objSelected = new Option(SourceList[i].text, SourceList[i].value);
-           	TargetList.options[TargetList.length] = objSelected;
-         }
-     }     
-	}
-  for (var i=0;i<TargetList.options.length;i++)
-  {
-    TargetList.options(i).selected=true;
-  }
-	if(navigator.appName=="Netscape")
-	{
-		history.go(0)
-	}
- }
- function inSouceList(SourceListOption,TargetList)
- {
- 	  for (i=0;i<TargetList.length;i++)
-    {
-	     if (TargetList.options[i].value==SourceListOption)
-       {
-        	 return true;
-       }
-    }   
-    return false;
- }  
-function Remove(SelectList)
-	{
-	var nIndex = SelectList.selectedIndex;
- 	var nCount = 0;
-	if (nIndex == -1)
-	{
-		// Process continue only if at least one item selected
-		//alert("ÇëÏÈÑ¡ÔñÒ»Ïî!");
-		return;
-	}
-  while(nCount<SelectList.length)
-  {
-       if (SelectList.options(nCount).selected==true)
-       {
-       	 SelectList.options[nCount] = null;
-       }
-       else
-       {
-         nCount++;
-       }
-  }
-	if(navigator.appName=="Netscape")
-		{
-		history.go(0)
-		}	
-	}
- function enter()
- {
-   var srcEle = window.event.srcElement;
-   var tmp;   
-   tmp = window.showModalDialog("pub_pub.Dialog_Date?vc_input=" + srcEle.value);
-     if ( tmp.indexOf("/") != -1)
-     {
-        srcEle.value = tmp;
-     }
-     return;
- }   
- function check_num()
- {
- 	 if (window.event.keyCode > 57 || window.event.keyCode < 48)
-	 {
-	 		window.event.returnValue = false;
-	 }
- }
- function check_blank()
- {
- 	 if (window.event.keyCode < 48)
-	 {
-	 		window.event.returnValue = false;
-	 }
- }
-  
-function check_num_dot()
-{
- 	 if (window.event.keyCode > 57 || window.event.keyCode < 46)
-	 {
-  		 window.event.returnValue = false;   
-	 }
-   else
-   {
-      if(window.event.keyCode==47)
-      {
-    		 window.event.returnValue = false;
-      }
-      if(window.event.keyCode==46)
-      {
-         if (window.event.srcElement.value.indexOf(".")!=-1)
-         {
-        		 window.event.returnValue = false;
-         }
-      }   
-    }  
- }
-  
- function submitonce(theform)
- {
- if (document.all || document.getElementById)
- {
- for (i=0;i<theform.length;i++)
- {
- var tempobj = theform.elements[i]
- if (tempobj.type.toLowerCase() =="button")
- tempobj.disabled = true
- }
- }
- }
- 
-  function CheckAll() 
- {
-   var i = 0;
-   for (i=0; i < window.document.forms[0].elements.length; i++) 
-   {
-     if(window.document.forms[0].elements[i].Chk<3) 
-     {
-       if(window.document.forms[0].elements[i].value=="")
-       {
-         alert(window.document.forms[0].elements[i].alt);
-         window.document.forms[0].elements[i].focus();
-         return;
-       }
-       else if (window.document.forms[0].elements[i].Chk==2)
-       {
-         if (NotNumber(window.document.forms[0].elements[i].value))
-         {
-            alert("ÌáÊ¾ĞÅÏ¢£º\n²»ÊÇÓĞĞ§µÄÊı×Ö£¬ÇëÖØĞÂÊäÈë¡£");
-            window.document.forms[0].elements[i].focus();
-            return;
-         }
-       }
-     }
-     else if(window.document.forms[0].elements[i].Chk==3)
-     {
-       if(window.document.forms[0].elements[i].value!="")
-       {
-         if (NotNumber(window.document.forms[0].elements[i].value))
-         {
-            alert("ÌáÊ¾ĞÅÏ¢£º\n²»ÊÇÓĞĞ§µÄÊı×Ö£¬ÇëÖØĞÂÊäÈë¡£");
-            window.document.forms[0].elements[i].focus();
-            return;
-         }
-       }
-     }
-   }
-   window.document.forms[0].submit();
-   return true;
- }
- function NotNumber(Field)
- {
-   var j = 0;
-   var k = 0;
-   for (var i=0; i<Field.length; i++)
-   {
-      var ch=Field.substring(i,i+1);
-      if((ch>="0")&&(ch<="9")) 
-      {
-        j=0;
-      }
-      else if(ch==".") 
-      {
-        k++;
-      }
-      else
-      {
-        j=1;
-        break;
-      }
-   }
-   if ((j==0)&&(k<2))
-   {
-      return false;
-   }
-   else
-   {
-      return true;
-   }
- }
- function openwindown(page)
- {
-    window.open(page,"newuser","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700,height=400,left=100,top=150");
- }
-</SCRIPT>
-
+		<TITLE>åˆåŒç”³è¯·ä¸€è§ˆè¡¨</TITLE>
 		<META http-equiv=Content-Language content=zh-cn>
-		<META http-equiv=Content-Type content="text/html; charset=gb2312">
+		<META http-equiv=Content-Type content="text/html; charset=utf-8">
 		<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
 		<META content=FrontPage.Editor.Document name=ProgId>
 		<LINK href="js/style.css" rel=stylesheet>
+		<link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+		<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+		<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+		<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+
 		<SCRIPT language=javascript>
+     $(function () {
+		 $("#dg").datagrid({
+			 url:"/offerToReveal",
+			 pagination:'true',
+			 rownumbers:'true',
+			 selectOnCheck:'true',
+			 singleSelect:'true',
+			 checkOnSelect:'true',
+			 pageList:[2,4,6,8,10],
+			 columns:[[
+				 {field:'',title:'',width:120,checkbox:true,align:'center'},
+				 {field:'enquireName',title:'è¯¢ä»·ä¹¦åç§°',width:300,align:'center'},
+				 {field:'endTime',title:'æ­ç¤ºæ—¶é—´',width:300,align:'center'},
+				 {field:'MaxPrice',title:'æœ€é«˜æŠ¥ä»·',width:300,align:'center'},
+				 {field:'MinPrice',title:'æœ€ä½æŠ¥ä»·',width:300,align:'center'},
+				 {field:'eid',title:'è¯¢ä»·id',hidden:true},
+				 {field:'qid',title:'æŠ¥ä»·id',hidden:true}
+			 ]]
+		 });
+	 });
+
+
+
       function submit_form(theForm,i)
       {
         var count=0;
@@ -231,7 +45,7 @@ function check_num_dot()
         count++;
         if (count==0)
         {
-         alert("ÌáÊ¾ĞÅÏ¢£º\nÇëÑ¡ÔñºÏÍ¬ÉêÇë¡£");
+         alert("æç¤ºä¿¡æ¯ï¼š\nè¯·é€‰æ‹©åˆåŒç”³è¯·ã€‚");
          return;
         }
         document.form.p_type.value=i;
@@ -241,12 +55,24 @@ function check_num_dot()
       }
 	  function edit()
 	  {
-		window.document.location="Apply_bianji.htm";
+		  var rows= $("#dg").datagrid("getSelections");
+		  if(rows.length==null || rows.length==""){
+			  alert("è¯·é€‰æ‹©ä¸€æ¡æ•°æ®ï¼");
+		  }else{
+			  window.document.location="/selQuoteDetail?qid="+rows[0].qid;
+		  }
+
 	  }
 	   
 	  function dakai() 
 	   {
-	   		window.document.location="Apply_xjsmx.htm";
+		   var rows= $("#dg").datagrid("getSelections");
+		   if(rows.length==null || rows.length==""){
+			   alert("è¯·é€‰æ‹©ä¸€æ¡æ•°æ®ï¼");
+		   }else{
+			   window.document.location="/detailsOfInquiry?eid="+rows[0].eid;
+		   }
+
 	   	}
 	    
 </SCRIPT>
@@ -266,9 +92,9 @@ function check_num_dot()
 												height=22>
 												<B>
 													<H2>
-														<FONT color=#0070c0>±¨¼Û½ÒÊ¾ÁĞ±í 
+														<FONT color=#0070c0>æŠ¥ä»·æ­ç¤ºåˆ—è¡¨ 
 												</B>
-												<IMG alt=°ïÖú
+												<IMG alt=å¸®åŠ©
 														src="img/help_a.gif" border=0>
 												</FONT>
 												</H2>
@@ -277,113 +103,27 @@ function check_num_dot()
 									
 										<TR>
 											<TD align=middle width="100%" bgColor=#ffffff colSpan=9
-												height=22>Ñ¯¼ÛÊéÃû³Æ£º<input type="text"><input type="Button" value="²éÑ¯">
+												height=22>è¯¢ä»·ä¹¦åç§°ï¼š<input type="text"><input type="Button" value="æŸ¥è¯¢">
 								
 											</TD>
 										</TR>
-
-										<TR class=t1>
-											<TD noWrap align=middle>
-												Ñ¡Ôñ
-											</TD>
-											<TD noWrap align=middle>
-												ĞòºÅ
-											</TD>
-											
-											<TD noWrap align=middle>
-												¶ÔÓ¦Ñ¯¼ÛÊé
-											</TD>
-											<TD noWrap align=middle>
-												½ÒÊ¾Ê±¼ä
-											</TD>
-											<TD noWrap align=middle>
-												×î¸ß±¨¼Û
-											</TD>
-											<TD noWrap align=middle>
-												×îµÍ±¨¼Û
-											</TD>
-											
-										</TR>
-										<TR class=t2>
-											<TD align=middle>
-												<INPUT type=radio value=10002010182564 name=p_Applyno>
-											</TD>
-											<TD align=middle>
-												1<BR>
-											</TD>
-											<TD>
-												<A href="javascript:window.location='Apply_xjsmx.htm'">Ñ¯¼ÛÊé1<BR> </A>
-											</TD>
-											
-											<TD>
-												2010/01/08 17:14:26
-												<BR>
-											</TD>
-											<TD >
-												5001
-												<BR>
-											</TD>
-											<TD >
-												4000
-												<BR>
-											</TD>
-											
-											
-										</TR>
-										<TR class=t2>
-											<TD align=middle>
-												<INPUT type=radio value=10002010182564 name=p_Applyno>
-											</TD>
-											<TD align=middle>
-												2<BR>
-											</TD>
-											
-											<TD>
-												<A href="javascript:window.location='Apply_xjsmx.htm'">Ñ¯¼ÛÊé2<BR> </A>
-											</TD>
-											
-											<TD>
-												2010/01/08 17:14:26
-												<BR>
-											</TD>
-											<TD >
-												5001
-												<BR>
-											</TD>
-											<TD >
-												4000
-												<BR>
-											</TD>
-											
-										</TR>
-										<TR>
-											<TD align=middle width="100%" bgColor=#ffffff colSpan=9
-												height=22>
-												<FORM method="Post" name=form>
-													<font color="#000064" >¡ô&nbsp;
-            										</FONT>
-            										<FONT color=#000064>Ê×Ò³ ÉÏÒ»Ò³</FONT>&nbsp;
-													<FONT color=#000064>ÏÂÒ»Ò³ Î²Ò³</FONT>
-													<FONT color=#000064>&nbsp;¹²1 ¸öºÏÍ¬ÉêÇë 10 ¸öºÏÍ¬ÉêÇë /Ò³</FONT>
-													<FONT color=#000064>&nbsp;Ò³´Î:
-													<FONT color=blue>1</FONT>/1Ò³</FONT>
-													<FONT color=#000064>&nbsp;¡ô&nbsp;</FONT>
-											</TD>
-										</TR>
+									<tr>
+										<td>
+											<TABLE id="dg"></TABLE>
+										</td>
+									</tr>
 									</TBODY>
 								</TABLE>
 							</TD>
 						</TR>
 					</TBODY>
 				</TABLE>
-				<INPUT type=hidden name=p_type>
-				<INPUT type=hidden value=3 name=p_lx>
 				<P align=center>
-					<input type="button" value="´ò¿ª" onclick="dakai();" />
+					<input type="button" value="æ‰“å¼€" onclick="dakai();" />
 					&nbsp;
-					<input type="button" value="ºÏÍ¬±àÖÆ" onclick="edit();" />
+					<input type="button" value="åˆåŒç¼–åˆ¶" onclick="edit();" />
 					&nbsp;
-					<INPUT onclick=" javascript:history.back()" type=button value=·µ»Ø
+					<INPUT onclick=" javascript:history.back()" type=button value=è¿”å›
 						name=FLOWLEADShow>
 				</P>
 			</FORM>

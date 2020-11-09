@@ -1,6 +1,9 @@
 package com.turing.service;
 
+import com.turing.entity.EasyUIDataGrid;
 import com.turing.entity.IdMapping;
+
+import java.util.List;
 
 public interface IdMappingService {
 
@@ -40,4 +43,11 @@ public interface IdMappingService {
      * @return
      */
     int updateIdMapping(IdMapping idMapping);
+
+
+    /**
+     * 查询合同不为空的信息
+     * @return
+     */
+    EasyUIDataGrid findContractApplyByUnNull(Integer cusPage,Integer pageSize);
 }

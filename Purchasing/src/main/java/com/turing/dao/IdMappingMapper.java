@@ -28,4 +28,10 @@ public interface IdMappingMapper {
     int updateByPrimaryKeySelective(IdMapping record);
 
     int updateByPrimaryKey(IdMapping record);
+
+    //合同申请不为空的信息
+    List<IdMapping> findContractApply(@Param("cusPage") Integer cusPage,@Param("pageSize") Integer pageSize);
+
+    //合同申请不为空的信息总数
+    int findContractApplyTotal();
 }

@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<HTML>
+<HTML lang="en" xmlns:th="http://www.thymeleaf.org">
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META http-equiv=Content-Language content=zh-cn>
+    <LINK href="../contractmanager/js/style.css" rel=stylesheet>
+<script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR></HEAD>
+<BODY>
+<CENTER>
+<FORM name=form action="" id="myForm" method=post>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+ borderColorLight=#006699 border=1 bgcolor="#f0ffff">
+  <TBODY>
+  <TR>
+    <TD>
+		</tr>
+        <TR bgColor=#ffffff>
+          <TD align=middle bgColor=#ffffff colSpan=20 
+            height=22>
+			<B>
+            <H2><FONT color=#0070c0>编制合同</B> <A 
+            onclick="window.open('../help/Help.asp?Value=查看合同要素','child','status=NO,scrollbars=yes,toolbar=no,menubar=no,location=no,left=200,top=100,width=700,height=400')" 
+            href="javascript:void(null)"><IMG alt=帮助 src="../contractmanager/img/help_a.gif" border=0></A>
+        </FONT></H2></TD></TR> 
+        <TR class=t2>
+          <TD>合&nbsp;&nbsp;同&nbsp;&nbsp;号</TD>
+          <TD width="26%" th:text="${number}">2010200540580090</TD>
+    <input type="hidden" name="contNum" th:value="${number}">
+          <TD width="11%">签订日期</TD>
+          <TD width="19%" th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}">2010/01/05</TD>
+    <input type="hidden" name="contdate" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}">
+          <TD width="8%" class=t2>合同类型</TD>
+          <TD width="20%">采购合同 </TD></TR>
+    <input type="hidden" name="contType" value="采购合同">
+        <TR class=t2>
+          <TD>买&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方</TD>
+          <TD>株洲南车时代电气股份有限公司</TD>
+    <input type="hidden" name="buyer" value="采购合同">
+          <TD>卖&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方</TD>
+          <TD><FONT color=green th:text="${quote.getQuoCompany()}">aive115</FONT></TD>
+    <input type="hidden" name="seller" th:value="${quote.getQuoCompany()}">
+    <input type="hidden" name="supplierNum" th:value="${quote.getSupplierId ()}">
+          <TD>采购类型</TD>
+          <TD>公开求购</TD>
+    <input type="hidden" name="stockType" value="公开求购">
+        </TR>
+        <TR class=t2>
+          <TD class=t2>币&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</TD>
+          <TD>人民币 </TD>
+    <input type="hidden" name="money" value="人民币">
+          <TD class=t2>汇&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率</TD>
+          <TD>1</TD>
+          <TD class=t2>税&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率</TD>
+            <TD><select name="taxRate">
+                <option selected >0</option>
+                <option >4</option>
+                <option >6</option>
+                <option >17</option>
+            </select>%
+
+            </TD></TR>
+        <TR class=t2>
+          <TD>付款条件</TD>
+          <TD colSpan=3>
+              <select name="payCond">
+                  <option selected>货到验收合格、自收到有效发票后90天付款</option>
+                  <option >货到验收合格、自收到有效发票后付款</option>
+                  <option >现场考核后付款</option>
+                  <option >货到验收合格、自收到有效发票后30天付款</option>
+                  <option >款到发货</option>
+              </select>
+<font style="color: red">[其他约定</font><input type="text" name="otherRequire" value="无"></TD>
+
+          <TD>验收时间</TD>
+          <TD>
+    <input type="date" name="verifydate">
+          </TD></TR>
+        <TR class=t2>
+          <TD>合同总金额(元)</TD>
+          <TD th:text="${quote.getOverallPrice()}">34566</TD>
+    <input type="hidden" name="contPrice" th:value="${quote.getOverallPrice()}">
+          <TD>运输费用负担</TD>
+          <TD>供方 </TD>
+    <input type="hidden" name="transport" value="供方">
+          <TD>付款方式</TD>
+          <TD>银行支票</TD>
+    <input type="hidden" name="payWay" value="银行支票">
+        </TR>
+        <TR class=t2>
+          <TD colSpan=6>逾期违约：供方逾期交货的，应按逾期交货金额每日千分之 <INPUT 
+            style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; FONT-WEIGHT: bold; BORDER-BOTTOM-COLOR: black; BORDER-LEFT: 0px; WIDTH: 50px"
+             alt=请输入逾期交货违约金比例。 maxLength=50 value=10 name=outPerm
+            Chk="1"> 向需方支付违约金，逾期超过 <INPUT 
+            style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; FONT-WEIGHT: bold; BORDER-BOTTOM-COLOR: black; BORDER-LEFT: 0px; WIDTH: 50px"
+            alt=请输入逾期天数。 maxLength=50 value=30 name=outDay Chk="1">
+            天，需方有权解除合同。 </TD></TR>
+       </TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor="#f0ffff" borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=1>
+        <TBODY>
+        <TR>
+          <TD align=middle bgColor=#99ccff colSpan=20><B>提供产品</B></TD></TR>
+        <TR class=t2>
+          <TD align=middle>物资编码</TD>
+          <TD align=middle>物资名称</TD>
+          <TD align=middle>数量</TD>
+          <TD align=middle>单价<BR>(含税)</TD>
+          <TD align=middle>计量单位</TD>
+          <TD align=middle>运杂费<BR>(元)</TD>
+          <TD align=middle>其他费用<BR>(元)</TD>
+          <TD align=middle>总计<BR>(元)</TD>
+          <TD align=middle>到货期</TD>
+
+          </TR>
+        <TR class=t2>
+          <TD align=middle th:text="${quoteDetail.getMaterialCode()}">W67010803132</TD>
+    <input type="hidden" name="materialCode" th:value="${quoteDetail.getMaterialCode()}">
+          <TD align=middle th:text="${quoteDetail.getMaterialName()}">CPU集成电路(P80C31BH1 民品)</TD>
+    <input type="hidden" name="materialName" th:value="${quoteDetail.getMaterialName()}">
+          <TD noWrap align=middle th:text="${quoteDetail.getAmount()}">99</TD>
+    <input type="hidden" name="amount" th:value="${quoteDetail.getAmount()}">
+          <TD noWrap align=middle th:text="${quoteDetail.getUnitPrice()}">99</TD>
+    <input type="hidden" name="unitPrice" th:value="${quoteDetail.getUnitPrice()}">
+          <TD noWrap align=middle>个</TD>
+    <input type="hidden" name="measureUnit" th:value="个">
+          <TD noWrap align=middle th:text="${quoteDetail.getMixPrice()}">9099</TD>
+    <input type="hidden" name="mixPrice" th:value="${quoteDetail.getMixPrice()}">
+          <TD noWrap align=middle th:text="${quoteDetail.getOtherPrice()}">88</TD>
+    <input type="hidden" name="otherPrice" th:value="${quoteDetail.getOtherPrice()}">
+          <TD noWrap align=middle th:text="${quoteDetail.getTotalPrice()}">999999</TD>
+    <input type="hidden" name="sumPrice" th:value="${quoteDetail.getTotalPrice()}">
+    <input type="hidden" name="totalPrice" th:value="${quoteDetail.getTotalPrice()}">
+          <TD align=middle th:text="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">2010/01/05</TD>
+    <input type="hidden" name="endDate" th:value="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">
+    <input type="hidden" name="imId" th:value="${imId}">
+          </TR>
+        </TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor="#f0ffff" borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=1>
+        <TBODY>
+        <TR class=t1>
+          <TD width="11%">备注</TD>
+          <TD class=t2>
+            <textarea name="remark" style="width: 400px;height: 30px"></textarea>
+          </TD></TR>
+        <TR class=t1>
+          <TD class=t2 colSpan=2><FONT 
+            color=red>合同模板说明：<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司名称-株洲南车时代电气股份有限公司，有效日期-2020/11/01至2030/12/31</FONT>
+          </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM>
+<P align=center>
+<INPUT onClick="queding()" type=button value="录入"name=PrintContract> 
+<INPUT onClick="javascript:history.back();" type=button value=返回 name=OK> </P>
+<SCRIPT language=javascript>
+
+function queding(){
+	if(confirm("您确定数据正确并保存吗？")){
+      var myform=$("#myForm").serialize();
+      $.ajax({
+           url:"/saveContract",
+           type:"post",
+           data:myform,
+           success:function (data) {
+               if(data=="true"){
+                 alert("编制完成！");
+                 location.href="/contractmanager/bianzhilist.html";
+               }else{
+                 alert("编制失败！");
+                 location.href="/contractmanager/bianzhilist.html";
+               }
+           }
+
+      });
+
+	}
+}
+	function ret(){
+	window.location="ProviderConsignment.html";
+	}
+		
+      function ContractGD()
+      {           if (confirm("您确定要将该合同归档？\n归档后将不能对合同归档前的流程进行操作。")==true)
+            {     form.action ="Contract_GD.ASP";
+                   form.submit(); }
+                   else
+                 { return; }
+           }
+
+   function ContractPrint(p_contNo)
+   {
+      window.open("Contract_Print.ASP?p_contNo="+p_contNo,"","toolbar=0,resizable=yes,location=0,status=0,menubar=1,scrollbars=1,width=800,height=600,left=0,top=0");
+   }    
+     function ContractPrint_2006(p_contNo)
+   {
+      window.open("Contract_2006_Print.ASP?p_contNo="+p_contNo,"","toolbar=0,resizable=yes,location=0,status=0,menubar=1,scrollbars=1,width=800,height=600,left=0,top=0");
+   }   
+</SCRIPT>
+</CENTER></BODY></HTML>

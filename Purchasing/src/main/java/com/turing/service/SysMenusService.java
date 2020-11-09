@@ -7,5 +7,13 @@ import java.util.List;
 public interface SysMenusService {
 
     //树形菜单
-    public List<SysMenus> findMenus(Integer id);
+    public List<SysMenus> findMenus(List<Integer> list);
+
+
+    /**
+     * 通过id查询
+     * @param id
+     * @return
+     */
+    public SysMenus findMenuById(Integer id);
 }

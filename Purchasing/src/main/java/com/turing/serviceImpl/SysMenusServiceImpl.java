@@ -8,6 +8,7 @@ import com.turing.service.SysMenusService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,12 +18,20 @@ public class SysMenusServiceImpl implements SysMenusService {
     private SysMenusMapper sysMenusMapper;
 
     @Override
-    public List<SysMenus> findMenus(Integer id) {
-        //根据id查询根节点
-        SysMenusExample example=new SysMenusExample();
-        example.createCriteria().andIdEqualTo(new Long(id));
-        List<SysMenus> sysMenus = sysMenusMapper.selectByExample(example);
-        return findChildMenus(sysMenus);
+    public List<SysMenus> findMenus(List<Integer> list) {
+        List<SysMenus> list2=new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            SysMenusExample example=new SysMenusExample();
+            example.createCriteria().andIdEqualTo(new Long(list.get(i)));
+            List<SysMenus> sysMenus = sysMenusMapper.selectByExample(example);
+                list2.add(sysMenus.get(0));
+        }
+        return findChildMenus(list2);
+    }
+
+    @Override
+    public SysMenus findMenuById(Integer id) {
+        return sysMenusMapper.selectByPrimaryKey(new Long(id));
     }
 
     public List<SysMenus> findChildMenus(List<SysMenus> sysMenus){

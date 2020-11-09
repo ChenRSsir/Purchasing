@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<!-- saved from url=(0089)http://169.254.158.100/zzdl/ContApply/Apply_list_do.asp?p_type=1&p_Applyno=10002010182564 -->
+<HTML lang="en" xmlns:th="http://www.thymeleaf.org">
+<HEAD><TITLE>合同申请明细</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+
+<LINK href="../contractmanager/js/style.css" rel=stylesheet>
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR></HEAD>
+<BODY>
+<CENTER>
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor=#336699 borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=1 bgcolor="#f0ffff">
+        <TBODY>
+        <TR bgColor=#ffffff>
+          <TD align=middle width="100%" bgColor=#ffffff colSpan=20 
+            height=22><B>
+            <H2><FONT color=#0070c0>合同申请明细</B> <A 
+            onclick="" 
+            href=""><IMG alt=帮助 src="../contractmanager/img/help_a.gif" border=0></A>
+</FONT></H2></TD></TR>
+        <TR class=t1>
+          <TD width="20%">询价书名称：</TD>
+          <TD class=t2 width="30%" th:text="${enquire.getEnquireName()}"></TD>
+          <TD width="20%">报价份数：</TD>
+          <TD class=t2 width="30%">1</TD></TR>
+        <TR class=t1>
+          <TD width="20%">最高报价（元）：</TD>
+          <TD class=t2 width="30%" th:text="${quote.getOverallPrice()}">5001</TD>
+          <TD width="20%">最低报价（元）：</TD>
+          <TD class=t2 width="30%" th:text="${quote.getOverallPrice()}">5001</TD>
+        </TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+
+<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
+bgColor=#336699 borderColorLight=#006699 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=1 bgcolor="#f0ffff">
+        <TBODY>
+        <TR class=T1>
+          <TD noWrap align=middle colSpan=9>物资<B><FONT color=red>1 
+            &nbsp;</B></FONT>【<font style="color: blue" th:text="${order.getMaterialName()}"></font>】
+                【<font style="color: blue" th:text="${order.getMaterialCode()}"></font>】
+                【<font style="color: blue" th:text="${order.getAmount()}"></font>】个
+
+            </TD></TR>
+        <TR class=t1>
+          <TD noWrap align=middle width="20%">供应商</TD>
+          <TD noWrap align=middle>数量</TD>
+          <TD noWrap align=middle>单价<BR>（元/含税）</TD>
+          <TD noWrap align=middle>运杂费<BR>（元）</TD>
+          <TD noWrap align=middle>其它费用<BR>（元）</TD>
+          <TD noWrap align=middle>总计<BR>（元）</TD>
+          <TD noWrap align=middle width="12%">计划开始<BR>交货期</TD>
+          <TD noWrap align=middle>开始<BR>交货期</TD>
+          <TD noWrap align=middle>结束<BR>交货期</TD></TR>
+        <TR class=t2>
+          <TD width="20%" th:text="${quote.getQuoCompany()}"><BR></TD>
+          <TD align=right th:text="${quote.getSumAmount()}">999<BR></TD>
+          <TD align=right th:text="${quoteDetail.getUnitPrice()}">5<BR></TD>
+          <TD align=right th:text="${quoteDetail.getMixPrice()}">5<BR></TD>
+          <TD align=right th:text="${quoteDetail.getOtherPrice()}">1<BR></TD>
+          <TD align=right th:text="${quoteDetail.getTotalPrice()}">5001<BR></TD>
+          <TD align=right th:text="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">2010/01/08</TD>
+          <TD align=middle th:text="${#dates.format(quoteDetail.getStartDate(),'yyyy-MM-dd')}">2010/01/08<BR></TD>
+          <TD align=middle th:text="${#dates.format(quoteDetail.getEndDate(),'yyyy-MM-dd')}">2010/01/08<BR></TD></TR>
+        <TR class=t1>
+          <TD noWrap align=middle><B>需求计划数量<B></B></B></TD>
+          <TD align=right colSpan=4 th:text="${order.getAmount()}">999<BR></TD>
+          <TD noWrap align=middle><B>订货数量<B></B></B></TD>
+          <TD align=right colSpan=4 th:text="${quoteDetail.getAmount()}">999<BR></TD></TR>
+        <TR class=t1>
+          <TD align=middle>总金额（元）</TD>
+          <TD colSpan=8 th:text="${quoteDetail.getTotalPrice()}">5001<BR></TD></TR>
+        </TBODY></TABLE></TD></TR></TBODY></TABLE>
+</TD></TR></TBODY></TABLE></CENTER><BR>
+<CENTER>
+<INPUT onclick=history.back() type=button value=返回> 
+</CENTER></BODY></HTML>

@@ -1,396 +1,82 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
-<HTML><HEAD><TITLE>Î´Í¨¹ıµÄ²É¹º¼Æ»®</TITLE>
-<SCRIPT language=JAVASCRIPT> 
-function chck()
-{  var  count=0;
-   for (var i=0;i<form.length;i++)
-   if ((form[i].type == "radio") && (form[i].checked))
-   count++; 
-   if (count==0)
-      { return false;  }
-   else
-      { return true;   }
-}
- 
-function Add(SourceList,TargetList)
-	{
-	var nIndex = SourceList.selectedIndex;
- 	var nCount = 0;  
-	if (nIndex == -1)
-	{
-		// Process continue only if at least one item selected
-		//alert("ÇëÏÈÑ¡ÔñÒ»Ïî!");
-		return;
-	}
-	for (i=0;i<SourceList.length;i++)
-  {
-     if (SourceList.options(i).selected==true)
-     {    
-         if (inSouceList(SourceList.options(i).value,TargetList)==false)
-         {
-          	var objSelected = new Option(SourceList[i].text, SourceList[i].value);
-           	TargetList.options[TargetList.length] = objSelected;
-         }
-     }     
-	}
-  for (var i=0;i<TargetList.options.length;i++)
-  {
-    TargetList.options(i).selected=true;
-  }
-	if(navigator.appName=="Netscape")
-	{
-		history.go(0)
-	}
- }
- function inSouceList(SourceListOption,TargetList)
- {
- 	  for (i=0;i<TargetList.length;i++)
-    {
-	     if (TargetList.options[i].value==SourceListOption)
-       {
-        	 return true;
-       }
-    }   
-    return false;
- }  
-function Remove(SelectList)
-	{
-	var nIndex = SelectList.selectedIndex;
- 	var nCount = 0;
-	if (nIndex == -1)
-	{
-		// Process continue only if at least one item selected
-		//alert("ÇëÏÈÑ¡ÔñÒ»Ïî!");
-		return;
-	}
-  while(nCount<SelectList.length)
-  {
-       if (SelectList.options(nCount).selected==true)
-       {
-       	 SelectList.options[nCount] = null;
-       }
-       else
-       {
-         nCount++;
-       }
-  }
-	if(navigator.appName=="Netscape")
-		{
-		history.go(0)
-		}	
-	}
- function enter()
- {
-   var srcEle = window.event.srcElement;
-   var tmp;   
-   tmp = window.showModalDialog("pub_pub.Dialog_Date?vc_input=" + srcEle.value);
-     if ( tmp.indexOf("/") != -1)
-     {
-        srcEle.value = tmp;
-     }
-     return;
- }   
- function check_num()
- {
- 	 if (window.event.keyCode > 57 || window.event.keyCode < 48)
-	 {
-	 		window.event.returnValue = false;
-	 }
- }
- function check_blank()
- {
- 	 if (window.event.keyCode < 48)
-	 {
-	 		window.event.returnValue = false;
-	 }
- }
-  
-function check_num_dot()
-{
- 	 if (window.event.keyCode > 57 || window.event.keyCode < 46)
-	 {
-  		 window.event.returnValue = false;   
-	 }
-   else
-   {
-      if(window.event.keyCode==47)
-      {
-    		 window.event.returnValue = false;
-      }
-      if(window.event.keyCode==46)
-      {
-         if (window.event.srcElement.value.indexOf(".")!=-1)
-         {
-        		 window.event.returnValue = false;
-         }
-      }   
-    }  
- }
-  
- function submitonce(theform)
- {
- if (document.all || document.getElementById)
- {
- for (i=0;i<theform.length;i++)
- {
- var tempobj = theform.elements[i]
- if (tempobj.type.toLowerCase() =="button")
- tempobj.disabled = true
- }
- }
- }
- 
-  function CheckAll() 
- {
-   var i = 0;
-   for (i=0; i < window.document.forms[0].elements.length; i++) 
-   {
-     if(window.document.forms[0].elements[i].Chk<3) 
-     {
-       if(window.document.forms[0].elements[i].value=="")
-       {
-         alert(window.document.forms[0].elements[i].alt);
-         window.document.forms[0].elements[i].focus();
-         return;
-       }
-       else if (window.document.forms[0].elements[i].Chk==2)
-       {
-         if (NotNumber(window.document.forms[0].elements[i].value))
-         {
-            alert("ÌáÊ¾ĞÅÏ¢£º\n²»ÊÇÓĞĞ§µÄÊı×Ö£¬ÇëÖØĞÂÊäÈë¡£");
-            window.document.forms[0].elements[i].focus();
-            return;
-         }
-       }
-     }
-     else if(window.document.forms[0].elements[i].Chk==3)
-     {
-       if(window.document.forms[0].elements[i].value!="")
-       {
-         if (NotNumber(window.document.forms[0].elements[i].value))
-         {
-            alert("ÌáÊ¾ĞÅÏ¢£º\n²»ÊÇÓĞĞ§µÄÊı×Ö£¬ÇëÖØĞÂÊäÈë¡£");
-            window.document.forms[0].elements[i].focus();
-            return;
-         }
-       }
-     }
-   }
-   window.document.forms[0].submit();
-   return true;
- }
- function NotNumber(Field)
- {
-   var j = 0;
-   var k = 0;
-   for (var i=0; i<Field.length; i++)
-   {
-      var ch=Field.substring(i,i+1);
-      if((ch>="0")&&(ch<="9")) 
-      {
-        j=0;
-      }
-      else if(ch==".") 
-      {
-        k++;
-      }
-      else
-      {
-        j=1;
-        break;
-      }
-   }
-   if ((j==0)&&(k<2))
-   {
-      return false;
-   }
-   else
-   {
-      return true;
-   }
- }
- function openwindown(page)
- {
-    window.open(page,"newuser","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=700,height=400,left=100,top=150");
- }
-</SCRIPT>
+<HTML><HEAD><TITLE>æœªæŠ¥ä»·è¯¢ä»·ä¹¦</TITLE>
 
 <META http-equiv=Content-Language content=zh-cn>
-<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
 <META content="MSHTML 6.00.2900.5626" name=GENERATOR>
 <META content=FrontPage.Editor.Document name=ProgId><LINK 
 href="css/style.css" rel=stylesheet>
-<SCRIPT language=javascript>
-		 function req()
-      {
-      	window.document.location="±¨¼ÛÀúÊ·¼ÇÂ¼.HTML";
-		}
-      function submit_form(theForm,i)
-      {
-      	window.document.location="±¨¼ÛÀúÊ·¼ÇÂ¼.HTML";
-       /* var count=0;
-        for (var k = 0; k < theForm.length; k++)
-        if ((theForm[k].type == "checkbox") && (theForm[k].checked))
-        count++;
-        if (count==0)
-        {
-        alert("ÌáÊ¾ĞÅÏ¢£º\nÇëÑ¡ÔñĞèÇó¼Æ»®¡£");
-        return;
-        }
-        if (i==4)
-        {
-          form.action="";
-        }
-        
-        if (i==5)
-		{	if(count>1) 
-			{ alert("ÌáÊ¾ĞÅÏ¢£º\nÖ»ÄÜ¶Ôµ¥Ìõ¼ÇÂ¼½øĞĞ²Ù×÷¡£");}
-			else
-			{ 
-			form.action="Order_wtb_upddate.asp";        
-			form.submit();
-			}      
-		}
-        
-        if (i==2)
-        {
-          form.action="../Project/Project_form.asp";
-        }
-        if (i==3)
-        {
-          form.action="Order_wtb_not.asp";
-        }
-         document.form.p_type.value=i;
-         window.document.form.submit();
-         return true;
-		 */
+  <link rel="stylesheet" type="text/css"  href="../jquery-easyui-1.8.5\themes\default\easyui.css"/>
+  <link rel="stylesheet" type="text/css" href="../jquery-easyui-1.8.5/themes/icon.css"/>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5/jquery.easyui.min.js"></script>
+  <script type="text/javascript" src="../jquery-easyui-1.8.5\locale\easyui-lang-zh_CN.js"></script>
+
+  <script type="text/javascript">
+    $(function () {
+      $("#dg").datagrid({
+        url: "/quoteForinquiry",
+        pagination: 'true',
+        rownumbers: 'true',
+        selectOnCheck: 'true',
+        singleSelect: 'true',
+        checkOnSelect: 'true',
+        pageList: [2, 4, 6, 8, 10],
+        columns: [[
+          {field: '', title: '', width: 120, checkbox: true, align: 'center'},
+          {field: 'enquireName', title: 'è¯¢ä»·ä¹¦åç§°', width: 250, align: 'center'},
+          {field: 'company', title: 'è¯¢ä»·å•ä½', width: 220, align: 'center'},
+          {field: 'endDate', title: 'æŠ¥ä»·æˆªæ­¢æ—¶é—´', width: 250, align: 'center'},
+          {field: 'stockType', title: 'é‡‡è´­ç±»å‹', width: 220, align: 'center'},
+          {field: 'status', title: 'çŠ¶æ€', width: 280, align: 'center',formatter:function (value,row,index) {
+                if(value=="C001-80"){
+                   return "å¾…æŠ¥ä»·";
+                }else{
+                  return "å·²æŠ¥ä»·";
+                }
+            }},
+          {field: 'eid', title: 'è¯¢ä»·id', hidden: true},
+          {field: 'imId', title: 'ç¼–å·å¯¹ç…§id', hidden: true}
+
+        ]]
+      });
+      
+    });
+    
+    function select_check() {
+      var rows= $("#dg").datagrid("getSelections");
+      if(rows.length==0 || rows.length==null){
+        alert("è¯·é€‰ä¸­ä¸€æ¡æ•°æ®ï¼");
+      }else if(rows[0].status=="C001-80"){
+         location.href="/quotationAccordingTo?eid="+rows[0].eid+"&imId"+rows[0].imId;
+      }else{
+        alert("è¯·å‹¿é‡å¤æŠ¥ä»·ï¼");
       }
-       function select_check(theForm)
-      {
-        var count=0;
-        for (var k = 0; k < theForm.length; k++)
-        if ((theForm[k].type == "checkbox") && (theForm[k].checked))
-        count++;
-         if (count==0)
-         {
-            for (k = 0; k < theForm.length; k++)
-            {
-              if (theForm[k].type == "checkbox")
-              theForm[k].checked=true;
-            }
-         }
-         else
-         {
-            for (k = 0; k < theForm.length; k++)
-            {
-              if (theForm[k].type == "checkbox")
-              theForm[k].checked=false;
-            }
-         }
-      }
-      function submit_form_cx()
-      {
-        form.action="Order_wbxjfa_list.asp";
-        window.document.form.submit();
-      }
-</SCRIPT>
+    }
+
+  </script>
 </HEAD>
 <BODY>
 <CENTER>
 <FORM name=form action="" method=post>
-<H2><FONT color=#0070c0>Î´Í¨¹ıµÄ²É¹º¼Æ»®</FONT></H2>
+<H2><FONT color=#0070c0>æœªæŠ¥ä»·è¯¢ä»·ä¹¦</FONT></H2>
 <TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ffffff 
 borderColorLight=#ffffff border=0>
-  <TBODY>
-  <TR>
-    <TD>
-      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
-        <TBODY>
-        <TR>
-          <TD noWrap align=middle>Îï×Ê±àÂë£º<INPUT maxLength=15 size=15 
-            name=p_prodno>&nbsp;&nbsp; Îï×ÊÃû³Æ£º<INPUT maxLength=15 size=15 
-            name=p_prodname>&nbsp;&nbsp; Ã¿Ò³ÏÔÊ¾¸öÊı£º <SELECT name=p_pagesize> 
-              <OPTION value=10 selected>10</OPTION> <OPTION value=20>20</OPTION> 
-              <OPTION value=30>30</OPTION> <OPTION value=50>50</OPTION> <OPTION 
-              value=100>100</OPTION> <OPTION value=4>È«²¿</OPTION></SELECT> ×´Ì¬£º 
-            <SELECT name=p_orderby>
-			<OPTION value="" selected>È«²¿</OPTION> 
-			<OPTION value="">²µ»Ø</OPTION> 
-               <OPTION 
-            value=2>·ÏÆú</OPTION></SELECT> <INPUT id=button2 onclick=submit_form_cx() type=button value=²éÑ¯ name=button2></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><FORM 
-name="form1" action="" method="Post">
-<CENTER><FONT color=#000064>¡ô&nbsp;</FONT><FONT color=#000064>Ê×Ò³ 
-ÉÏÒ»Ò³</FONT>&nbsp;<A 
-href="http://169.254.158.100/zzdl/Order/Order_Wbxjfa_List.asp?p_type=0&amp;p_prodno=&amp;p_pagesize=&amp;p_ftype=&amp;p_orderby=&amp;page=2"><FONT 
-color=#0000be>ÏÂÒ»Ò³</FONT></A>&nbsp;<A 
-href="http://169.254.158.100/zzdl/Order/Order_Wbxjfa_List.asp?p_type=0&amp;p_prodno=&amp;p_pagesize=&amp;p_ftype=&amp;p_orderby=&amp;page=4"><FONT 
-color=#0000be>Î²Ò³</FONT></A><FONT color=#000064>&nbsp;¹² 35 ¸öĞèÇó¼Æ»® Ã¿Ò³10 
-¸öĞèÇó¼Æ»®</FONT><FONT color=#000064>&nbsp;Ò³´Î:<FONT 
-color=blue>1</FONT>/4Ò³</FONT><FONT color=#000064>&nbsp;¡ô&nbsp;</FONT> 
-<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0 width="100%" 
-bgColor=#336699 borderColorLight=#006699 border=0>
-  <TBODY>
-  <TR>
-    <TD>
-      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
-        <TBODY>
-        <TR class=t1>
-          <TD noWrap align=middle>Ñ¡Ôñ</TD>
-          <TD noWrap align=middle>ĞòºÅ</TD>
-          <TD noWrap align=middle>Îï×Ê´úÂë</TD>
-          <TD noWrap align=middle>Îï×ÊÃû³Æ</TD>
-		   <TD noWrap align=middle>ĞèÇó¼Æ»®ºÅ</TD>
-          <TD noWrap align=middle>ÊıÁ¿</TD>
-          <TD noWrap align=middle>ÉóÅúÈË</TD>
-         <TD noWrap align=middle>ÉóÅú×´Ì¬</TD>
 
-		</TR>
-        <TR class=t2>
-          <TD align=middle><INPUT type=checkbox value=1000201011133245 
-            name=p_orderno></TD>
-          <TD align=middle>1</TD>
-          <TD align=middle>W64001005000<BR></TD>
-          <TD>¾§Õñ(HC-49U-500K-0.005%)<BR></TD>
-		  <TD>111111<BR></TD>
-          <TD align=right>22<BR></TD>
-			<TD align=right>¼Æ»®²¿³¤<BR></TD>
-          <TD align=right>·ÏÆú<BR></TD>
-        <TR class=t2>
-          <TD align=middle><INPUT type=checkbox value=1000201011133190 
-            name=p_orderno></TD>
-          <TD align=middle>2</TD>
-          <TD align=middle>W64001005000<BR></TD>
-          <TD>¾§Õñ(HC-49U-500K-0.005%)<BR></TD>
-		   <TD>111111<BR></TD>
-          <TD align=right>1<BR></TD>
-          <TD align=right>¼Æ»®²¿³¤<BR></TD>
-          <TD align=right>²µ»Ø<BR></TD>
-		   
-          </TR>
-        <TR class=t2>
-          <TD align=middle><INPUT type=checkbox value=1000201011133221 
-            name=p_orderno></TD>
-          <TD align=middle>3</TD>
-          <TD align=middle>W64001005000<BR></TD>
-          <TD>¾§Õñ(HC-49U-500K-0.005%)<BR></TD>
-		   <TD>4353463<BR></TD>
-          <TD align=right>10<BR></TD>
-        <TD align=right>²ÆÎñ<BR></TD>
-         <TD align=right>·ÏÆú<BR></TD>
-          </TR>
-        <TR class=t2>
-          <TD align=middle><INPUT type=checkbox value=1000201011133199 
-            name=p_orderno></TD>
-          <TD align=middle>10</TD>
-          <TD align=middle>W65000400101<BR></TD>
-          <TD>CMOSµçÂ·(CD4001BCN)<BR></TD>
-		   <TD>5436456<BR></TD>
-          <TD align=right>10086<BR></TD>
-           <TD align=right>²ÆÎñ<BR></TD>
-          <TD align=right>²µ»Ø<BR></TD>
-          </TR></TBODY></TABLE></TD></TR></TBODY></TABLE><INPUT type=hidden value=0 
+  <tbody>
+  <tr>
+
+    <td>
+
+      <table id="dg"></table>
+    </td>
+  </tr>
+
+  </tbody>
+
+  </TABLE><INPUT type=hidden value=0
 name=p_type> 
-<P align=center><INPUT onclick=select_check(document.form) type=button value=È«Ñ¡/È¡Ïû> 
-<INPUT onclick="req();" type=button value=ÏêÇé name=upd> 
+<P align=center><INPUT onclick=select_check() type=button value="æŠ¥ä»·">
+<INPUT onclick="javascript:history.back()" type=button value=è¿”å› name=upd>
 </P></FORM></CENTER></CENTER></BODY></HTML>
